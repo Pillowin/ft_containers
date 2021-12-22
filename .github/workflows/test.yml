@@ -10,4 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make test
-      run: git submoduleinit && make test
+      run: git submodule update --init --recursive && make test
