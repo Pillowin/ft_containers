@@ -1,13 +1,28 @@
 # ft_containers
 C++ containers, easy mode
 
+## Todo
+
+- [ ] Vector
+	- [ ] Member types
+	- [ ] Member functions
+	- [ ] Iterators
+	- [ ] Capacity
+	- [ ] Element access
+	- [ ] Modifiers
+	- [ ] Allocator
+	- [ ] Non member function overload
+- [ ] Map
+- [ ] Stack
+- [ ] Set (bonus)
+
 ## Doc
 
 - https://en.cppreference.com/w/cpp/container/vector
 - https://stackoverflow.com/questions/4576307/c-allocate-memory-without-activating-constructors/4576380#4576380
 - https://www.cplusplus.com/reference/type_traits/
 - https://cdn.discordapp.com/attachments/785407584608714802/796032192190611456/Diagramme_UML_de_STL.png
-
+- https://cdn.discordapp.com/attachments/785407584608714802/796288507026079754/The_Standard_Template_Library.PDF
 - http://www.lirmm.fr/~ducour/Doc-objets/ISO+IEC+14882-1998.pdf
 - https://en.cppreference.com/w/cpp/language/sfinae
 - https://en.cppreference.com/w/cpp/types/enable_if
