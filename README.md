@@ -17,6 +17,7 @@ C++ containers, easy mode
 
 ## Doc
 
+- http://www.uml.org.cn/c++/pdf/EffectiveSTL.pdf
 - http://www.lirmm.fr/~ducour/Doc-objets/ISO+IEC+14882-1998.pdf
 - https://en.cppreference.com/w/cpp/container/vector
 - https://stackoverflow.com/questions/4576307/c-allocate-memory-without-activating-constructors/4576380#4576380
