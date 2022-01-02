@@ -6,11 +6,10 @@ C++ containers, easy mode
 - [ ] Vector
 	- [ ] Member types
 	- [ ] Member functions
+	- [ ] Element access
 	- [ ] Iterators
 	- [ ] Capacity
-	- [ ] Element access
 	- [ ] Modifiers
-	- [ ] Allocator
 	- [ ] Non member function overload
 - [ ] Map
 - [ ] Stack
@@ -18,6 +17,7 @@ C++ containers, easy mode
 
 ## Doc
 
+- http://www.lirmm.fr/~ducour/Doc-objets/ISO+IEC+14882-1998.pdf
 - https://en.cppreference.com/w/cpp/container/vector
 - https://stackoverflow.com/questions/4576307/c-allocate-memory-without-activating-constructors/4576380#4576380
 - https://www.cplusplus.com/reference/type_traits/
