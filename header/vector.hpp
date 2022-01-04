@@ -6,26 +6,25 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:06:38 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 12:43:23 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:13:15 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "iterator.hpp"
 #include <cstddef>
 #include <memory>
+
+// TODO: public / private
+// TODO: change std namespace to ft
 
 namespace ft {
 
 template< class T, class Allocator = std::allocator< T > >
 class vector {
-		// TODO: public / private
-		// TODO: rename to vector
 	public:
-		class vectorIterator {};
-
 		/* Member types */
-
 		typedef T								  value_type;
 		typedef Allocator						  allocator_type;
 		typedef std::size_t						  size_type;
@@ -34,13 +33,16 @@ class vector {
 		typedef value_type const&				  const_reference;
 		typedef typename Allocator::pointer		  pointer;
 		typedef typename Allocator::const_pointer const_pointer;
-		// typedef iterator;
-		// typedef const_iterator;
+		typedef iterator< random_access_iterator_tag,
+						  T,
+						  difference_type,
+						  pointer,
+						  reference >
+			iterator;
+		// typedef class const_iterator					const_iterator;
 		// typedef std::reverse_iterator< iterator >		reverse_iterator;
 		// typedef std::reverse_iterator< const_iterator >
 		// const_reverse_iterator;
-
-		// TODO: iterators
 
 		/* Member functions */
 		// vector();

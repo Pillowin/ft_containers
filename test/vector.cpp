@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 20:31:25 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 12:40:34 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:55:21 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,17 @@
 #include <stdint.h>
 #include <vector>
 
-// Member functions
+/* Member types */
+
+bool test_member_types(void) {
+	ft::vector< int >::iterator it;
+
+	(void)it;
+	// TODO:
+	return (true);
+}
+
+/* Member functions */
 
 bool test_default_constructor(void) {
 	ft::vector< int > ftvec;
@@ -46,7 +56,7 @@ bool test_copy_constructor(void) {
 	return (true);
 }
 
-// Capacity
+/* Capacity */
 
 // bool test_default_constructor_empty(void) {
 //	ft::vector< int > ftvec;
@@ -63,27 +73,23 @@ bool test_copy_constructor(void) {
 // }
 
 bool test_vector(void) {
-	Test test("vector");
+	Test vector_test("Vector");
 
-	// Member functions
-	test.registerTest(&test_default_constructor);
-	test.registerTest(&test_fill_constructor);
-	// test.registerTest(&test_range_constructor);	// TODO:
-	test.registerTest(&test_copy_constructor);
+	/* Member types */
 
-	// Iterators
-	// Capacity
-	// test.registerTest(&test_default_constructor_size);
-	// test.registerTest(&test_default_constructor_empty);
+	vector_test.registerTest("Member types", &test_member_types);
 
-	// Element access
-	// Modifiers
-	// Allocator
+	/* Member functions */
 
-	// ft::vector< int > second(4, 100); // four ints with value 100
-	// ft::vector< int > third(second.begin(),
-	//						second.end()); // iterating throuth second
-	// ft::vector< int > fourth(third); // a copy of third
+	vector_test.registerTest("Default constructor", &test_default_constructor);
+	vector_test.registerTest("Fill constructor", &test_fill_constructor);
+	// vector_test.registerTest(&test_range_constructor);	// TODO:
+	vector_test.registerTest("Copy constructor", &test_copy_constructor);
 
-	return (test.run());
+	/* Capacity */
+
+	// vector_test.registerTest(&test_default_constructor_size);
+	// vector_test.registerTest(&test_default_constructor_empty);
+
+	return (vector_test.run());
 }
