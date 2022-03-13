@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 17:26:59 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 19:00:16 by agautier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include <cstddef>
@@ -51,8 +39,8 @@ class iterator_traits< const T* > {
 	public:
 		typedef std::ptrdiff_t			   difference_type;
 		typedef T						   value_type;
-		typedef const T*				   pointer;
-		typedef const T&				   reference;
+		typedef T const*				   pointer;
+		typedef T const&				   reference;
 		typedef random_access_iterator_tag iterator_category;
 };
 
@@ -70,29 +58,22 @@ class iterator {
 		typedef Distance  difference_type;
 		typedef Pointer	  pointer;
 		typedef Reference reference;
+
+		/* Constructors */
+
+		/* Non-member operators */
+		// operator==
+		// operator!=
+		// operator<
+		// operator<=
+		// operator>
+		// operator>=
+		// operator+
+		// operator-
+		// operator==
+
+		// private:
+		//	pointer p;
 };
-
-/* advance */
-template< class InputIterator, class Distance >
-void advance(InputIterator& i, Distance n) {
-	// TODO: Requires: n may be negative only for random access and
-	// bidirectional iterators.
-	// TODO: Effects: increments (or decrements for negative n) iterator
-	// reference i by n.
-	(void)i;
-	(void)n;
-}
-
-/* distance */
-template< class InputIterator >
-typename iterator_traits< InputIterator >::difference_type
-	distance(InputIterator first, InputIterator last) {
-	// TODO: Requires: last must be reachable from first.
-	// TODO: Effects: Returns the number of increments or decrements needed o
-	// get from first to last.
-	(void)first;
-	(void)last;
-	return (0);
-}
 
 } // namespace ft
