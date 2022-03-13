@@ -117,6 +117,17 @@ bool test_const_back(void) {
 	assert_eq(c, 'a');
 }
 
+bool test_data(void) {
+	ft::vector< char > vec(1, 'a');
+	char*			   c = vec.data();
+	assert_eq(*c, 'a');
+}
+bool test_const_data(void) {
+	ft::vector< char > vec(1, 'a');
+	char const*		   c = vec.data();
+	assert_eq(*c, 'a');
+}
+
 /* Capacity */
 bool test_empty_true(void) { assert_eq(ft::vector< int >().empty(), true); }
 bool test_empty_false(void) {
@@ -156,19 +167,15 @@ bool test_vector(void) {
 	vector_test.registerTest("Fill constructor", &test_fill_constructor);
 	vector_test.registerTest("Range constructor", &test_range_constructor);
 	vector_test.registerTest("Copy constructor", &test_copy_constructor);
-
 	vector_test.registerTest("Destructor", &test_destructor);
-
 	// vector_test.registerTest("Assignment operator",
 	// &test_assignment_operator);
 
 	/* Access */
 	vector_test.registerTest("At 0", &test_at_single);
 	// vector_test.registerTest("At 1", &test_at_push_back);
-
 	vector_test.registerTest("Const at 0", &test_const_at_single);
 	// vector_test.registerTest("Const at 1", &test_at_push_back);
-
 	vector_test.registerTest("Access operator at 0",
 							 &test_access_operator_zero);
 	// vector_test.registerTest("Access operator at 1",
@@ -177,23 +184,20 @@ bool test_vector(void) {
 							 &test_const_access_operator_zero);
 	// vector_test.registerTest("Const access operator at 1",
 	// &test_const_access_operator_one);
-
 	vector_test.registerTest("Front", &test_front);
 	vector_test.registerTest("Const front", &test_const_front);
-
 	vector_test.registerTest("Back", &test_back);
 	vector_test.registerTest("Const back", &test_const_back);
+	vector_test.registerTest("Data", &test_data);
+	vector_test.registerTest("Const data", &test_const_data);
 
 	/* Capacity */
 	vector_test.registerTest("Empty true", &test_empty_true);
 	vector_test.registerTest("Empty false", &test_empty_false);
-
 	vector_test.registerTest("Size null", &test_size_null);
 	vector_test.registerTest("Size positive", &test_size_positive);
 	vector_test.registerTest("Size pop back", &test_size_pop_back);
-
 	vector_test.registerTest("Max size", &test_max_size);
-
 	vector_test.registerTest("Capacity null", &test_capacity_null);
 	vector_test.registerTest("Capacity positive", &test_capacity_positive);
 	vector_test.registerTest("Capacity pop back", &test_capacity_pop_back);

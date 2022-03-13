@@ -187,11 +187,13 @@ class vector {
 			return (this->m_start[pos]);
 		}
 		reference		front(void) { return (this->m_start[0]); }
-		const_reference front() const { return (this->m_start[0]); }
-		reference		back() { return (this->m_start[this->m_size - 1]); }
-		const_reference back() const {
+		const_reference front(void) const { return (this->m_start[0]); }
+		reference		back(void) { return (this->m_start[this->m_size - 1]); }
+		const_reference back(void) const {
 			return (this->m_start[this->m_size - 1]);
 		}
+		pointer		  data(void) { return (this->m_start); }
+		const_pointer data(void) const { return (this->m_start); }
 
 		/* Iterators */
 		// iterator begin();
