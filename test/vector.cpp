@@ -37,7 +37,75 @@ bool test_copy_constructor(void) {
 		return (false);
 	return (true);
 }
-bool test_destructor(void) { return (true); }
+bool test_assignment_operator(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2 = vec;
+	if (vec2.size() != 10 || vec2.capacity() != 10 || vec2.at(0) != 'a'
+		|| vec2.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_assignment_operator_reused(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(1, 'b');
+	vec2 = vec;
+	if (vec2.size() != 10 || vec2.capacity() != 10 || vec2.at(0) != 'a'
+		|| vec2.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_assignment_operator_real(void) {
+	std::vector< char > vec(10, 'a');
+	std::vector< char > vec2(789888, 'b');
+	vec2.push_back('c');
+	vec = vec2;
+	std::vector< char > ftvec(10, 'a');
+	std::vector< char > ftvec2(789888, 'b');
+	ftvec2.push_back('c');
+	ftvec = ftvec2;
+	if (ftvec.capacity() != vec.capacity() || ftvec.size() != vec.size()
+		|| vec[0] != ftvec[0] || vec[vec.size() - 1] != ftvec[ftvec.size() - 1])
+		return (false);
+	return (true);
+}
+bool test_assign_fill(void) {
+	ft::vector< char > vec;
+	vec.assign(10, 'a');
+	if (vec.size() != 10 || vec.capacity() != 10 || vec.at(0) != 'a'
+		|| vec.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_assign_range(void) {
+	std::vector< char > vec(10, 'a');
+	ft::vector< char >	vec2;
+	vec2.assign(vec.begin(), vec.end());
+	if (vec2.size() != 10 || vec2.capacity() != 10 || vec2.at(0) != 'a'
+		|| vec2.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_assign_range_reused_bigger(void) {
+	std::vector< char > vec(10, 'a');
+	ft::vector< char >	vec2(100, 'b');
+	vec2.assign(vec.begin(), vec.end());
+	if (vec2.size() != 10 || vec2.capacity() != 100 || vec2.at(0) != 'a'
+		|| vec2.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_assign_range_reused_smaller(void) {
+	std::vector< char > vec(10, 'a');
+	ft::vector< char >	vec2(1, 'b');
+	vec2.assign(vec.begin(), vec.end());
+	if (vec2.size() != 10 || vec2.capacity() != 10 || vec2.at(0) != 'a'
+		|| vec2.at(9) != 'a')
+		return (false);
+	return (true);
+}
+bool test_get_allocator(void) {
+	assert_eq(std::allocator< char >(), std::vector< char >().get_allocator());
+}
 
 /* Access */
 bool test_at_single(void) {
@@ -53,7 +121,6 @@ bool test_at_push_back(void) {
 	assert_eq(c, 'b');
 }
 */
-
 bool test_const_at_single(void) {
 	ft::vector< char > vec(1, 'a');
 	char const&		   c = vec.at(0);
@@ -67,7 +134,6 @@ bool test_const_at_push_back(void) {
 	assert_eq(c, 'b');
 }
 */
-
 bool test_access_operator_zero(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec[0];
@@ -94,7 +160,6 @@ bool test_const_access_operator_one(void) {
 	assert_eq(c, 'b');
 }
 */
-
 bool test_front(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec.front();
@@ -105,7 +170,6 @@ bool test_const_front(void) {
 	char const&		   c = vec.front();
 	assert_eq(c, 'a');
 }
-
 bool test_back(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec.back();
@@ -116,7 +180,6 @@ bool test_const_back(void) {
 	char const&		   c = vec.back();
 	assert_eq(c, 'a');
 }
-
 bool test_data(void) {
 	ft::vector< char > vec(1, 'a');
 	char*			   c = vec.data();
@@ -167,9 +230,18 @@ bool test_vector(void) {
 	vector_test.registerTest("Fill constructor", &test_fill_constructor);
 	vector_test.registerTest("Range constructor", &test_range_constructor);
 	vector_test.registerTest("Copy constructor", &test_copy_constructor);
-	vector_test.registerTest("Destructor", &test_destructor);
-	// vector_test.registerTest("Assignment operator",
-	// &test_assignment_operator);
+	vector_test.registerTest("Assignment operator", &test_assignment_operator);
+	vector_test.registerTest("Assignment operator reused",
+							 &test_assignment_operator_reused);
+	vector_test.registerTest("Assignment operator real",
+							 &test_assignment_operator_real);
+	vector_test.registerTest("Assign fill", &test_assign_fill);
+	vector_test.registerTest("Assign range", &test_assign_range);
+	vector_test.registerTest("Assign range reuse bigger",
+							 &test_assign_range_reused_bigger);
+	vector_test.registerTest("Assign range reuse smaller",
+							 &test_assign_range_reused_smaller);
+	vector_test.registerTest("Get allocator", &test_get_allocator);
 
 	/* Access */
 	vector_test.registerTest("At 0", &test_at_single);

@@ -153,23 +153,49 @@ class vector {
 				this->m_allocator.destroy(this->m_start + i);
 			this->m_allocator.deallocate(this->m_start, this->m_capacity);
 		}
-		/*
-		reference operator=(const_reference rhs) {
+		vector& operator=(vector const& rhs) {
 			if (this == &rhs)
 				return (*this);
-			for (size_type i = 0; i < this->m_size; ++i) {
+			this->m_allocator = rhs.m_allocator;
+			for (size_type i = 0; i < this->m_size; ++i)
 				this->m_allocator.destroy(this->m_start + i);
-			}
 			if (this->m_capacity < rhs.m_size) {
-				;
+				this->m_allocator.deallocate(this->m_start, this->m_capacity);
+				this->m_capacity = rhs.m_size;
+				this->m_start	 = this->m_allocator.allocate(this->m_capacity);
 			}
-			// TODO:
+			for (size_type i = 0; i < rhs.m_size; ++i)
+				this->m_allocator.construct(this->m_start + i, rhs.m_start[i]);
+			this->m_size = rhs.m_size;
+			return (*this);
 		}
-		*/
-		// void assign( size_type count, const T& value );
-		// template< class InputIt >
-		// void assign( InputIt first, InputIt last );
-		// allocator_type get_allocator() const;
+		void assign(size_type count, const T& value) {
+			for (size_type i = 0; i < this->m_size; ++i)
+				this->m_allocator.destroy(this->m_start + i);
+			if (this->m_capacity < count) {
+				this->m_allocator.deallocate(this->m_start, this->m_capacity);
+				this->m_capacity = count;
+				this->m_start	 = this->m_allocator.allocate(this->m_capacity);
+			}
+			for (size_type i = 0; i < count; ++i)
+				this->m_allocator.construct(this->m_start + i, value);
+			this->m_size = count;
+		}
+		template< class InputIt >
+		void assign(InputIt first, InputIt last) {
+			size_type count = std::distance(first, last);
+			for (size_type i = 0; i < this->m_size; ++i)
+				this->m_allocator.destroy(this->m_start + i);
+			if (this->m_capacity < count) {
+				this->m_allocator.deallocate(this->m_start, this->m_capacity);
+				this->m_capacity = count;
+				this->m_start	 = this->m_allocator.allocate(this->m_capacity);
+			}
+			for (size_type i = 0; i < count; ++i)
+				this->m_allocator.construct(this->m_start + i, first[i]);
+			this->m_size = count;
+		}
+		allocator_type get_allocator() const { return (this->m_allocator); }
 
 		/* Element access */
 		reference at(size_type pos) {
