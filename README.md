@@ -6,7 +6,7 @@ C++ containers, easy mode
 - [x] Vector
 	- [ ] Member types
 	- [x] Member functions
-	- [ ] Element access
+	- [x] Element access
 	- [ ] Iterators
 	- [ ] Capacity
 	- [ ] Modifiers
