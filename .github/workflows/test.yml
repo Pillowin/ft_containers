@@ -12,4 +12,4 @@ jobs:
       with:
         submodules: true
     - name: make test
-      run: make test
+      run: make test CFLAGS=-fPIE
