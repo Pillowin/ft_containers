@@ -13,12 +13,12 @@ CXX			:=	c++
 
 CXXFLAGS	+=	-Ilibtest/header/
 CXXFLAGS	+=	-I$I
-CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -fPIC
+CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD
 CXXFLAGS	+=	-g3 -fsanitize=address
 
 LDFLAGS		+=	-Ilibtest/header/
 LDFLAGS		+=	-I$I
-LDFLAGS		+=	-Llibtest/ -fPIC
+LDFLAGS		+=	-Llibtest/
 LDFLAGS		+=	-g3 -fsanitize=address
 
 RM			:=	/bin/rm -f
