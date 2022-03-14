@@ -8,7 +8,7 @@ C++ containers, easy mode
 	- [x] Member functions
 	- [x] Element access
 	- [ ] Iterators
-	- [ ] Capacity
+	- [x] Capacity
 	- [ ] Modifiers
 	- [ ] Non member function overload
 - [ ] Map
