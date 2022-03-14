@@ -3,9 +3,9 @@ C++ containers, easy mode
 
 ## Todo
 
-- [ ] Vector
+- [x] Vector
 	- [ ] Member types
-	- [ ] Member functions
+	- [x] Member functions
 	- [ ] Element access
 	- [ ] Iterators
 	- [ ] Capacity
