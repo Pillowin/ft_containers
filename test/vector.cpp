@@ -208,6 +208,14 @@ bool test_size_pop_back(void) {
 bool test_max_size(void) {
 	assert_eq(ft::vector< int >().max_size(), std::vector< int >().max_size());
 }
+bool test_reserve(void) {
+	ft::vector< char > vec(10, 'a');
+	vec.reserve(100);
+	if (vec.capacity() != 100 || vec.size() != 10 || vec[0] != 'a'
+		|| vec[9] != 'a')
+		return (false);
+	return (true);
+}
 bool test_capacity_null(void) { assert_eq(ft::vector< char >().capacity(), 0); }
 bool test_capacity_positive(void) {
 	assert_eq(ft::vector< char >(10, 'a').capacity(), 10);
@@ -270,6 +278,7 @@ bool test_vector(void) {
 	vector_test.registerTest("Size positive", &test_size_positive);
 	vector_test.registerTest("Size pop back", &test_size_pop_back);
 	vector_test.registerTest("Max size", &test_max_size);
+	vector_test.registerTest("Reserve", &test_reserve);
 	vector_test.registerTest("Capacity null", &test_capacity_null);
 	vector_test.registerTest("Capacity positive", &test_capacity_positive);
 	vector_test.registerTest("Capacity pop back", &test_capacity_pop_back);

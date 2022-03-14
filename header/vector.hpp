@@ -235,7 +235,18 @@ class vector {
 		bool	  empty() const { return (!this->m_size); }
 		size_type size() const { return (this->m_size); }
 		size_type max_size() const { return (this->m_allocator.max_size()); }
-		// void reserve( size_type new_cap );
+		void	  reserve(size_type new_cap) {
+				 if (new_cap <= this->m_capacity)
+				 return;
+			 pointer tmp   = this->m_start;
+				 this->m_start = this->m_allocator.allocate(new_cap);
+				 for (size_type i = 0; i < this->m_size; ++i)
+				 this->m_allocator.construct(this->m_start + i, tmp[i]);
+			 for (size_type i = 0; i < this->m_size; ++i)
+				 this->m_allocator.destroy(tmp + i);
+			 this->m_allocator.deallocate(tmp, this->m_capacity);
+				 this->m_capacity = new_cap;
+		}
 		size_type capacity() const { return (this->m_capacity); }
 
 		/* Modifiers */
