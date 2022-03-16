@@ -1,4 +1,4 @@
-g ft_containers
+# ft_containers
 C++ containers, easy mode
 
 ## Todo
