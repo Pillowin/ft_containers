@@ -44,7 +44,8 @@ class iterator_traits< const T* > {
 		typedef random_access_iterator_tag iterator_category;
 };
 
-/* Basic iterator */
+/*
+// Basic iterator
 template< class Category,
 		  class T,
 		  class Distance  = std::ptrdiff_t,
@@ -52,12 +53,14 @@ template< class Category,
 		  class Reference = T& >
 class iterator {
 	public:
-		/* Member types */
+		// Member types 
 		typedef Category  iterator_category;
 		typedef T		  value_type;
 		typedef Distance  difference_type;
 		typedef Pointer	  pointer;
 		typedef Reference reference;
 };
+*/
+
 
 } // namespace ft
