@@ -343,7 +343,7 @@ static bool test_resize_increase(void) {
 		return (false);
 	return (true);
 }
-static bool test_swap(void) {
+static bool test_member_swap(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(15, 'b');
 	vec.swap(vec2);
@@ -354,6 +354,15 @@ static bool test_swap(void) {
 }
 
 /* Non member */
+static bool test_std_swap_overload(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(15, 'b');
+	swap(vec, vec2);
+	if (vec.size() != 15 || vec[0] != 'b' || vec[14] != 'b' || vec2.size() != 10
+		|| vec2[0] != 'a' || vec2[9] != 'a')
+		return (false);
+	return (true);
+}
 static bool test_operator_equal_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
@@ -364,6 +373,57 @@ static bool test_operator_equal_false(void) {
 	ft::vector< char > vec2(9, 'a');
 	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
 	assert_eq(vec == vec2, false);
+}
+static bool test_operator_different_true(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(9, 'a');
+	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
+	assert_eq(vec != vec2, true);
+}
+static bool test_operator_different_false(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec != vec2, false);
+}
+static bool test_operator_less_true(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(15, 'a');
+	assert_eq(vec < vec2, true);
+}
+static bool test_operator_less_false(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec < vec2, false);
+}
+static bool test_operator_less_equal_true(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec <= vec2, true);
+}
+static bool test_operator_less_equal_false(void) {
+	ft::vector< char > vec(15, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec <= vec2, false);
+}
+static bool test_operator_more_true(void) {
+	ft::vector< char > vec(15, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec > vec2, true);
+}
+static bool test_operator_more_false(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec > vec2, false);
+}
+static bool test_operator_more_equal_true(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(10, 'a');
+	assert_eq(vec >= vec2, true);
+}
+static bool test_operator_more_equal_false(void) {
+	ft::vector< char > vec(10, 'a');
+	ft::vector< char > vec2(15, 'a');
+	assert_eq(vec >= vec2, false);
 }
 
 bool test_vector(void) {
@@ -430,11 +490,23 @@ bool test_vector(void) {
 	t.registerTest("Pop back", &test_pop_back);
 	t.registerTest("Resize reduce", &test_resize_reduce);
 	t.registerTest("Resize increase", &test_resize_increase);
-	t.registerTest("Swap", &test_swap);
+	t.registerTest("Member swap", &test_member_swap);
 
 	/* Modifiers */
+	t.registerTest("Std swap overload", &test_std_swap_overload);
 	t.registerTest("Operator == true", &test_operator_equal_true);
 	t.registerTest("Operator == false", &test_operator_equal_false);
+	t.registerTest("Operator != true", &test_operator_different_true);
+	t.registerTest("Operator == false", &test_operator_different_false);
+	t.registerTest("Operator < true", &test_operator_less_true);
+	t.registerTest("Operator < false", &test_operator_less_false);
+	t.registerTest("Operator <= true", &test_operator_less_equal_true);
+	t.registerTest("Operator <= false", &test_operator_less_equal_false);
+	t.registerTest("Operator > true", &test_operator_more_true);
+	t.registerTest("Operator > false", &test_operator_more_false);
+	t.registerTest("Operator >= true", &test_operator_more_equal_true);
+	t.registerTest("Operator >= false", &test_operator_more_equal_false);
+
 
 	return (t.run());
 }

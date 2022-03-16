@@ -279,8 +279,8 @@ class vector {
 };
 
 /* Non member function overload */
-// template< class T, class Alloc >
-// void swap( std::vector<T,Alloc>& lhs, std::vector<T,Alloc>& rhs);
+template< class T, class Alloc >
+void swap( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs) { lhs.swap(rhs); }
 template< class T, class Alloc >
 bool operator==(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
@@ -288,16 +288,31 @@ bool operator==(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 		return (false);
 	return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
-// template< class T, class Alloc > bool operator==(std::vector< T,
-// Alloc > const& lhs, std::vector< T, Alloc > const& rhs);
-// template< class T, class Alloc > bool operator<(std::vector< T,
-// Alloc > const& lhs, std::vector< T, Alloc > const& rhs);
-// template< class T, class Alloc > bool operator<=(std::vector< T,
-// Alloc > const& lhs, std::vector< T, Alloc > const& rhs);
-// template< class T, class Alloc > bool operator>(std::vector< T,
-// Alloc > const& lhs, std::vector< T, Alloc > const& rhs);
-// template< class T, class Alloc > bool operator>=(std::vector< T,
-// Alloc > const& lhs, std::vector< T, Alloc > const& rhs);
+template< class T, class Alloc >
+bool operator!=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
+{
+	return (!(lhs == rhs));
+}
+template< class T, class Alloc >
+bool operator<(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+template< class T, class Alloc >
+bool operator<=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
+{
+	return (!(lhs > rhs));
+}
+template< class T, class Alloc >
+bool operator>(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
+{
+	return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+}
+template< class T, class Alloc >
+bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
+{
+	return (!(lhs < rhs));
+}
 
 
 } // namespace ft

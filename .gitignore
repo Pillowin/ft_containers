@@ -1,4 +1,4 @@
-# Prerequisites
+g Prerequisites
 *.d
 
 # Compiled Object files
@@ -32,3 +32,4 @@
 *.app
 
 ft_containers
+.vscode/

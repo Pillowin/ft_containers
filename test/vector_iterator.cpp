@@ -99,22 +99,22 @@ bool test_vector_iterator(void) {
 	Test t("Vector iterator");
 
 	/* Member functions */
-	t.registerTest("test operator *", &test_operator_star);
-	t.registerTest("test operator []", &test_operator_index);
-	t.registerTest("test operator pre ++ ", &test_operator_pre_increment);
-	t.registerTest("test operator pre -- ", &test_operator_pre_decrement);
-	t.registerTest("test operator post ++ ", &test_operator_post_increment);
-	t.registerTest("test operator post -- ", &test_operator_post_decrement);
-	t.registerTest("test operator + ", &test_operator_addition);
-	t.registerTest("test operator - ", &test_operator_substraction);
-	t.registerTest("test operator += ", &test_operator_addition_equal);
-	t.registerTest("test operator -= ", &test_operator_substraction_equal);
-	t.registerTest("test operator == ", &test_operator_equal);
-	t.registerTest("test operator != ", &test_operator_not_equal);
-	t.registerTest("test operator < ", &test_operator_less);
-	t.registerTest("test operator > ", &test_operator_more);
-	t.registerTest("test operator <= ", &test_operator_less_equal);
-	t.registerTest("test operator >= ", &test_operator_more_equal);
+	t.registerTest("Operator *", &test_operator_star);
+	t.registerTest("Operator []", &test_operator_index);
+	t.registerTest("Operator pre ++ ", &test_operator_pre_increment);
+	t.registerTest("Operator pre -- ", &test_operator_pre_decrement);
+	t.registerTest("Operator post ++ ", &test_operator_post_increment);
+	t.registerTest("Operator post -- ", &test_operator_post_decrement);
+	t.registerTest("Operator + ", &test_operator_addition);
+	t.registerTest("Operator - ", &test_operator_substraction);
+	t.registerTest("Operator += ", &test_operator_addition_equal);
+	t.registerTest("Operator -= ", &test_operator_substraction_equal);
+	t.registerTest("Operator == ", &test_operator_equal);
+	t.registerTest("Operator != ", &test_operator_not_equal);
+	t.registerTest("Operator < ", &test_operator_less);
+	t.registerTest("Operator > ", &test_operator_more);
+	t.registerTest("Operator <= ", &test_operator_less_equal);
+	t.registerTest("Operator >= ", &test_operator_more_equal);
 
 	return (t.run());
 }
