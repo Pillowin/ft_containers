@@ -58,22 +58,6 @@ class iterator {
 		typedef Distance  difference_type;
 		typedef Pointer	  pointer;
 		typedef Reference reference;
-
-		/* Constructors */
-
-		/* Non-member operators */
-		// operator==
-		// operator!=
-		// operator<
-		// operator<=
-		// operator>
-		// operator>=
-		// operator+
-		// operator-
-		// operator==
-
-		// private:
-		//	pointer p;
 };
 
 } // namespace ft

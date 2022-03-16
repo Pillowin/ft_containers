@@ -16,8 +16,8 @@ class vector_iterator {
 		typedef ft::random_access_iterator_tag iterator_category;
 		typedef T							   value_type;
 		typedef std::ptrdiff_t				   difference_type;
-		typedef T const*					   pointer;
-		typedef T const&					   reference;
+		typedef T*							   pointer;
+		typedef T&							   reference;
 
 		/* Constructors/Destructor */
 		vector_iterator(void) : ptr(0) {}
@@ -39,8 +39,14 @@ class vector_iterator {
 		reference operator[](difference_type off) { return (ptr[off]); }
 
 		/* Increment/Decrement operators */
-		reference operator++(void) { return (this->ptr++); }
-		reference operator--(void) { return (this->ptr--); }
+		vector_iterator& operator++(void) {
+			this->ptr++;
+			return (*this);
+		}
+		vector_iterator& operator--(void) {
+			this->ptr--;
+			return (*this);
+		}
 		reference operator++(int) {
 			vector_iterator tmp = *this;
 			this->ptr++;
@@ -195,7 +201,7 @@ class vector {
 				this->m_allocator.construct(this->m_start + i, first[i]);
 			this->m_size = count;
 		}
-		allocator_type get_allocator() const { return (this->m_allocator); }
+		allocator_type get_allocator(void) const { return (this->m_allocator); }
 
 		/* Element access */
 		reference at(size_type pos) {
@@ -222,50 +228,142 @@ class vector {
 		const_pointer data(void) const { return (this->m_start); }
 
 		/* Iterators */
-		// iterator begin();
-		// const_iterator begin() const;
-		// iterator end();
-		// const_iterator end() const;
-		// reverse_iterator rbegin();
-		// const_reverse_iterator rbegin() const;
-		// reverse_iterator rend();
-		// const_reverse_iterator rend() const;
+		iterator begin(void) {
+			return (vector_iterator< value_type >(this->m_start));
+		}
+		// const_iterator begin(void) const;
+		iterator end(void) {
+			return (
+				vector_iterator< value_type >(this->m_start + this->m_size));
+		}
+		// const_iterator end(void) const;
+		// reverse_iterator rbegin(void);
+		// const_reverse_iterator rbegin(void) const;
+		// reverse_iterator rend(void);
+		// const_reverse_iterator rend(void) const;
 
 		/* Capacity */
-		bool	  empty() const { return (!this->m_size); }
-		size_type size() const { return (this->m_size); }
-		size_type max_size() const { return (this->m_allocator.max_size()); }
-		void	  reserve(size_type new_cap) {
-				 if (new_cap <= this->m_capacity)
-				 return;
-			 pointer tmp   = this->m_start;
-				 this->m_start = this->m_allocator.allocate(new_cap);
-				 for (size_type i = 0; i < this->m_size; ++i)
-				 this->m_allocator.construct(this->m_start + i, tmp[i]);
-			 for (size_type i = 0; i < this->m_size; ++i)
-				 this->m_allocator.destroy(tmp + i);
-			 this->m_allocator.deallocate(tmp, this->m_capacity);
-				 this->m_capacity = new_cap;
+		bool	  empty(void) const { return (!this->m_size); }
+		size_type size(void) const { return (this->m_size); }
+		size_type max_size(void) const {
+			return (this->m_allocator.max_size());
 		}
-		size_type capacity() const { return (this->m_capacity); }
+		void reserve(size_type new_cap) {
+			if (new_cap <= this->m_capacity)
+				return;
+			pointer tmp	  = this->m_start;
+			this->m_start = this->m_allocator.allocate(new_cap);
+			for (size_type i = 0; i < this->m_size; ++i)
+				this->m_allocator.construct(this->m_start + i, tmp[i]);
+			for (size_type i = 0; i < this->m_size; ++i)
+				this->m_allocator.destroy(tmp + i);
+			this->m_allocator.deallocate(tmp, this->m_capacity);
+			this->m_capacity = new_cap;
+		}
+		size_type capacity(void) const { return (this->m_capacity); }
 
 		/* Modifiers */
-		// void clear();
-		// iterator insert( iterator pos, const T& value );
-		// void insert( iterator pos, size_type count, const T& value );
-		// template< class InputIt >
-		// void insert( iterator pos, InputIt first, InputIt last );
-		// iterator erase( iterator pos );
-		// iterator erase( iterator first, iterator last );
-		// void push_back( const T& value );
-		void pop_back() {
+		void clear(void) {
+			for (size_type i = 0; i < this->m_size; ++i)
+				this->m_allocator.destroy(this->m_start + i);
+			this->m_size = 0;
+		}
+		iterator insert(iterator pos, const_reference value) {
+			difference_type pos_index = &(*pos) - this->m_start;
+			if (this->m_capacity == 0)
+				this->reserve(10);
+			if (this->m_capacity <= this->m_size)
+				this->reserve(this->m_capacity * 2);
+			this->m_allocator.construct(this->m_start + this->m_size, this->back());
+			++this->m_size;
+			for (difference_type i = this->m_size - 2; i > pos_index; --i)
+				this->m_start[i] = this->m_start[i - 1];
+			this->m_start[pos_index] = value;
+			return (iterator(this->m_start + pos_index));
+		}
+		void insert(iterator pos, size_type count, const_reference value) {
+			difference_type pos_index = &(*pos) - this->m_start;
+			if (this->m_capacity == 0)
+				this->reserve(count);
+			while (this->m_capacity <= this->m_size + count)
+				this->reserve(this->m_capacity * 2);
+			for (size_type i = 0; i < count; ++i) {
+				this->m_allocator.construct(this->m_start + this->m_size, this->back());
+				++this->m_size;
+			}
+			for (difference_type i = this->m_size - 2; i - count + 1 > 0; --i)
+				this->m_start[i] = this->m_start[i - count];
+			for (size_type i = 0; i < count; ++i)
+				this->m_start[pos_index + i] = value;
+		}
+		template< class InputIt >
+		void insert( iterator pos, InputIt first, InputIt last ) {
+			difference_type pos_index = &(*pos) - this->m_start;
+			difference_type count = &(*last) - &(*first);
+			if (this->m_capacity == 0)
+				this->reserve(count);
+			while (this->m_capacity <= this->m_size + count)
+				this->reserve(this->m_capacity * 2);
+			for (difference_type i = 0; i < count; ++i) {
+				this->m_allocator.construct(this->m_start + this->m_size, this->back());
+				++this->m_size;
+			}
+			for (difference_type i = this->m_size - 2; i - count + 1 > 0; --i)
+				this->m_start[i] = this->m_start[i - count + 1];
+			for (difference_type i = 0; i < count; ++i)
+				this->m_start[pos_index + i] = first[i];
+		}
+		iterator erase(iterator pos) {
+			this->m_allocator.destroy(&(*pos));
+			--this->m_size;
+			for (iterator it = pos; it != end(); ++it)
+				it[0] = it[1];
+			return (pos);
+		}
+		iterator erase(iterator first, iterator last) {
+			size_type count = &(*last) - &(*first);
+			size_type begin = &(*first) - this->m_start;
+			for (size_type i = begin; i <= count; ++i)
+				this->m_allocator.destroy(this->m_start + i);
+			this->m_size -= count;
+			for (size_type i = begin; i <= this->m_size; ++i)
+				this->m_start[i] = this->m_start[i + count];
+			return (first);
+		}
+		void push_back(const T& value) {
+			if (this->m_capacity == 0)
+				this->reserve(10);
+			else if (this->m_size == this->m_capacity)
+				this->reserve(this->m_capacity * 2);
+			this->m_allocator.construct(this->m_start + this->m_size, value);
+			++this->m_size;
+		}
+		void pop_back(void) {
 			if (!this->m_size)
 				return;
 			this->m_allocator.destroy(this->m_start + this->m_size - 1);
 			--this->m_size;
 		}
-		// void resize( size_type count, T value = T() );
-		// void swap( vector& other );
+		void resize(size_type count, T value = T()) {
+			if (this->m_size > count) {
+				for (; this->m_size > count; --this->m_size)
+					this->m_allocator.destroy(this->m_start + this->m_size);
+			} else if (this->m_size < count) {
+				if (this->m_capacity == 0)
+					this->reserve(10);
+				while (this->m_capacity < count)
+					this->reserve(this->m_capacity * 2);
+				for (size_type i = this->m_size; i < count; ++i)
+					this->m_allocator.construct(this->m_start + i, value);
+				this->m_size = count;
+			}
+		}
+		void swap(vector& other) {
+			std::swap(this->m_allocator, other.m_allocator);
+			std::swap(this->m_capacity, other.m_capacity);
+			std::swap(this->m_size, other.m_size);
+			std::swap(this->m_start, other.m_start);
+		}
 
 		/* Non member function overload */
 		// template< class T, class Alloc >
