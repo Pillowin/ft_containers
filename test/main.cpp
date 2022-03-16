@@ -1,4 +1,5 @@
 #include "Test.hpp"
+#include <stdlib.h>
 
 bool test_vector(void);
 bool test_vector_iterator(void);

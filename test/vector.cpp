@@ -354,19 +354,17 @@ static bool test_swap(void) {
 }
 
 /* Non member */
-/*
 static bool test_operator_equal_true(void) {
 	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(15, 'a');
+	ft::vector< char > vec2(10, 'a');
 	assert_eq(vec == vec2, true);
 }
 static bool test_operator_equal_false(void) {
 	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(15, 'a');
-	vec2.insert(vec2.begin() + vec2.at(vec2.size()/2), 'b');
+	ft::vector< char > vec2(9, 'a');
+	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
 	assert_eq(vec == vec2, false);
 }
-*/
 
 bool test_vector(void) {
 	Test t("Vector");
@@ -435,8 +433,8 @@ bool test_vector(void) {
 	t.registerTest("Swap", &test_swap);
 
 	/* Modifiers */
-	//t.registerTest("Operator == true", &test_operator_equal_true);
-	//t.registerTest("Operator == false", &test_operator_equal_false);
+	t.registerTest("Operator == true", &test_operator_equal_true);
+	t.registerTest("Operator == false", &test_operator_equal_false);
 
 	return (t.run());
 }
