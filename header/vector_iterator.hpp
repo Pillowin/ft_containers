@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iterator.hpp"
+#include "iterator_trait.hpp"
 
 namespace ft {
 
@@ -55,10 +55,10 @@ class vector_iterator {
 		}
 
 		/* Arithmetic operators */
-		vector_iterator operator+(difference_type rhs) {
+		vector_iterator operator+(difference_type rhs) const {
 			return (this->ptr + rhs);
 		}
-		vector_iterator operator-(difference_type rhs) {
+		vector_iterator operator-(difference_type rhs) const {
 			return (this->ptr - rhs);
 		}
 		vector_iterator& operator+=(difference_type rhs) {

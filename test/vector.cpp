@@ -1,5 +1,6 @@
 #include "vector.hpp"
 #include "Test.hpp"
+#include "reverse_iterator.hpp"
 #include <iostream>
 #include <stdint.h>
 #include <vector>
@@ -102,122 +103,158 @@ static bool test_assign_range_reused_smaller(void) {
 	return (true);
 }
 static bool test_get_allocator(void) {
-	assert_eq(std::allocator< char >(), std::vector< char >().get_allocator());
+	ltest_assert_eq(std::allocator< char >(), std::vector< char >().get_allocator());
 }
 
 /* Access */
 static bool test_at_single(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec.at(0);
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_at_push_back(void) {
 	ft::vector< char > vec(1, 'a');
 	vec.push_back('b');
 	char& c = vec.at(1);
-	assert_eq(c, 'b');
+	ltest_assert_eq(c, 'b');
 }
 static bool test_const_at_single(void) {
 	ft::vector< char > vec(1, 'a');
 	char const&		   c = vec.at(0);
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_const_at_push_back(void) {
 	ft::vector< char > vec(1, 'a');
 	vec.push_back('b');
 	char const& c = vec.at(1);
-	assert_eq(c, 'b');
+	ltest_assert_eq(c, 'b');
 }
 static bool test_access_operator_zero(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec[0];
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_access_operator_one(void) {
 	ft::vector< char > vec(1, 'a');
 	vec.push_back('b');
 	char& c = vec[1];
-	assert_eq(c, 'b');
+	ltest_assert_eq(c, 'b');
 }
 static bool test_const_access_operator_zero(void) {
 	ft::vector< char > vec(1, 'a');
 	char const&		   c = vec[0];
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_const_access_operator_one(void) {
 	ft::vector< char > vec(1, 'a');
 	vec.push_back('b');
 	char const& c = vec[1];
-	assert_eq(c, 'b');
+	ltest_assert_eq(c, 'b');
 }
 static bool test_front(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec.front();
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_const_front(void) {
 	ft::vector< char > vec(1, 'a');
 	char const&		   c = vec.front();
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_back(void) {
 	ft::vector< char > vec(1, 'a');
 	char&			   c = vec.back();
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_const_back(void) {
 	ft::vector< char > vec(1, 'a');
 	char const&		   c = vec.back();
-	assert_eq(c, 'a');
+	ltest_assert_eq(c, 'a');
 }
 static bool test_data(void) {
 	ft::vector< char > vec(1, 'a');
 	char*			   c = vec.data();
-	assert_eq(*c, 'a');
+	ltest_assert_eq(*c, 'a');
 }
 static bool test_const_data(void) {
 	ft::vector< char > vec(1, 'a');
 	char const*		   c = vec.data();
-	assert_eq(*c, 'a');
+	ltest_assert_eq(*c, 'a');
 }
 
 /* Iterators */
 static bool test_begin(void) {
-	assert_eq(*(ft::vector< char >(10, 'a').begin()), 'a');
+	ltest_assert_eq(*(ft::vector< char >(10, 'a').begin()), 'a');
 }
 static bool test_begin_incremented(void) {
-	assert_eq(*(ft::vector< char >(10, 'a').begin() + 1), 'a');
+	ltest_assert_eq(*(ft::vector< char >(10, 'a').begin() + 1), 'a');
 }
 static bool test_const_begin(void) {
 	ft::vector< char> const vec (10, 'a');
 	ft::vector < char >::const_iterator it = vec.begin();
-	assert_eq(*it, 'a');
+	ltest_assert_eq(*it, 'a');
+}
+static bool test_rbegin(void) {
+	std::vector<char> stdvec(1, 'a');
+	stdvec.push_back('b');
+	stdvec.push_back('c');
+	std::vector <char>::reverse_iterator stdit = stdvec.rbegin();
+	ft::vector< char> vec (1, 'a');
+	vec.push_back('b');
+	vec.push_back('c');
+	ft::vector < char>::reverse_iterator it = vec.rbegin();
+	ltest_assert_eq(*it, *stdit);
+}
+static bool test_rbegin_const(void) {
+	std::vector<char> const stdvec(3, 'a');
+	std::vector <char>::const_reverse_iterator stdit = stdvec.rbegin();
+	ft::vector< char> const vec (3, 'a');
+	ft::vector < char>::const_reverse_iterator it = vec.rbegin();
+	ltest_assert_eq(*it, *stdit);
 }
 static bool test_end_decremented(void) {
-	assert_eq(*(ft::vector< char >(10, 'a').end() - 1), 'a');
+	ltest_assert_eq(*(ft::vector< char >(10, 'a').end() - 1), 'a');
 }
 static bool test_const_end(void) {
 	ft::vector< char> const vec (10, 'a');
 	ft::vector < char>::const_iterator it = vec.end() - 1;
-	assert_eq(*it, 'a');
+	ltest_assert_eq(*it, 'a');
+}
+static bool test_rend(void) {
+	ft::vector< char> vec (1, 'a');
+	vec.push_back('b');
+	vec.push_back('c');
+	ft::vector < char>::reverse_iterator it = vec.rend() - 1;
+	std::vector< char> stdvec (1, 'a');
+	stdvec.push_back('b');
+	stdvec.push_back('c');
+	std::vector < char>::reverse_iterator stdit = stdvec.rend() - 1;
+	ltest_assert_eq(*it, *stdit);
+}
+static bool test_rend_const(void) {
+	ft::vector< char> const vec (3, 'a');
+	ft::vector < char>::const_reverse_iterator it = vec.rend() - 1;
+	std::vector< char> const stdvec (3, 'a');
+	std::vector < char>::const_reverse_iterator stdit = stdvec.rend() - 1;
+	ltest_assert_eq(*it, *stdit);
 }
 
 /* Capacity */
-static bool test_empty_true(void) { assert_eq(ft::vector< int >().empty(), true); }
+static bool test_empty_true(void) { ltest_assert_eq(ft::vector< int >().empty(), true); }
 static bool test_empty_false(void) {
-	assert_eq(ft::vector< char >(10, 'a').empty(), false);
+	ltest_assert_eq(ft::vector< char >(10, 'a').empty(), false);
 }
-static bool test_size_null(void) { assert_eq(ft::vector< int >().size(), 0); }
+static bool test_size_null(void) { ltest_assert_eq(ft::vector< int >().size(), 0); }
 static bool test_size_positive(void) {
-	assert_eq(ft::vector< char >(10, 'a').size(), 10);
+	ltest_assert_eq(ft::vector< char >(10, 'a').size(), 10);
 }
 static bool test_size_pop_back(void) {
 	ft::vector< char > vec(10, 'a');
 	vec.pop_back();
-	assert_eq(vec.size(), 9);
+	ltest_assert_eq(vec.size(), 9);
 }
 static bool test_max_size(void) {
-	assert_eq(ft::vector< int >().max_size(), std::vector< int >().max_size());
+	ltest_assert_eq(ft::vector< int >().max_size(), std::vector< int >().max_size());
 }
 static bool test_reserve(void) {
 	ft::vector< char > vec(10, 'a');
@@ -227,21 +264,21 @@ static bool test_reserve(void) {
 		return (false);
 	return (true);
 }
-static bool test_capacity_null(void) { assert_eq(ft::vector< char >().capacity(), 0); }
+static bool test_capacity_null(void) { ltest_assert_eq(ft::vector< char >().capacity(), 0); }
 static bool test_capacity_positive(void) {
-	assert_eq(ft::vector< char >(10, 'a').capacity(), 10);
+	ltest_assert_eq(ft::vector< char >(10, 'a').capacity(), 10);
 }
 static bool test_capacity_pop_back(void) {
 	ft::vector< char > vec(10, 'a');
 	vec.pop_back();
-	assert_eq(vec.capacity(), 10);
+	ltest_assert_eq(vec.capacity(), 10);
 }
 
 /* Modifiers */
 static bool test_clear(void) {
 	ft::vector< char > vec(10, 'a');
 	vec.clear();
-	assert_eq(vec.size(), 0);
+	ltest_assert_eq(vec.size(), 0);
 }
 static bool test_insert_simple(void) {
 	ft::vector< char > vec(1, 'a');
@@ -366,64 +403,64 @@ static bool test_std_swap_overload(void) {
 static bool test_operator_equal_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec == vec2, true);
+	ltest_assert_eq(vec == vec2, true);
 }
 static bool test_operator_equal_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(9, 'a');
 	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
-	assert_eq(vec == vec2, false);
+	ltest_assert_eq(vec == vec2, false);
 }
 static bool test_operator_different_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(9, 'a');
 	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
-	assert_eq(vec != vec2, true);
+	ltest_assert_eq(vec != vec2, true);
 }
 static bool test_operator_different_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec != vec2, false);
+	ltest_assert_eq(vec != vec2, false);
 }
 static bool test_operator_less_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(15, 'a');
-	assert_eq(vec < vec2, true);
+	ltest_assert_eq(vec < vec2, true);
 }
 static bool test_operator_less_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec < vec2, false);
+	ltest_assert_eq(vec < vec2, false);
 }
 static bool test_operator_less_equal_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec <= vec2, true);
+	ltest_assert_eq(vec <= vec2, true);
 }
 static bool test_operator_less_equal_false(void) {
 	ft::vector< char > vec(15, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec <= vec2, false);
+	ltest_assert_eq(vec <= vec2, false);
 }
-static bool test_operator_more_true(void) {
+static bool test_operator_great_true(void) {
 	ft::vector< char > vec(15, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec > vec2, true);
+	ltest_assert_eq(vec > vec2, true);
 }
-static bool test_operator_more_false(void) {
+static bool test_operator_great_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec > vec2, false);
+	ltest_assert_eq(vec > vec2, false);
 }
-static bool test_operator_more_equal_true(void) {
+static bool test_operator_great_equal_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(10, 'a');
-	assert_eq(vec >= vec2, true);
+	ltest_assert_eq(vec >= vec2, true);
 }
-static bool test_operator_more_equal_false(void) {
+static bool test_operator_great_equal_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(15, 'a');
-	assert_eq(vec >= vec2, false);
+	ltest_assert_eq(vec >= vec2, false);
 }
 
 bool test_vector(void) {
@@ -463,8 +500,12 @@ bool test_vector(void) {
 	t.registerTest("Begin", &test_begin);
 	t.registerTest("Begin incremented", &test_begin_incremented);
 	t.registerTest("Begin const", &test_const_begin);
+	t.registerTest("Rbegin", &test_rbegin);
+	t.registerTest("Rbegin const", &test_rbegin_const);
 	t.registerTest("End decremented", &test_end_decremented);
 	t.registerTest("End const", &test_const_end);
+	t.registerTest("Rend", &test_rend);
+	t.registerTest("Rend const", &test_rend_const);
 
 	/* Capacity */
 	t.registerTest("Empty true", &test_empty_true);
@@ -502,11 +543,10 @@ bool test_vector(void) {
 	t.registerTest("Operator < false", &test_operator_less_false);
 	t.registerTest("Operator <= true", &test_operator_less_equal_true);
 	t.registerTest("Operator <= false", &test_operator_less_equal_false);
-	t.registerTest("Operator > true", &test_operator_more_true);
-	t.registerTest("Operator > false", &test_operator_more_false);
-	t.registerTest("Operator >= true", &test_operator_more_equal_true);
-	t.registerTest("Operator >= false", &test_operator_more_equal_false);
-
+	t.registerTest("Operator > true", &test_operator_great_true);
+	t.registerTest("Operator > false", &test_operator_great_false);
+	t.registerTest("Operator >= true", &test_operator_great_equal_true);
+	t.registerTest("Operator >= false", &test_operator_great_equal_false);
 
 	return (t.run());
 }

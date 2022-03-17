@@ -3,8 +3,8 @@
 #include "algorithm.hpp"
 #include "vector_iterator.hpp"
 #include "vector_const_iterator.hpp"
+#include "reverse_iterator.hpp"
 #include <cstddef>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -24,9 +24,8 @@ class vector {
 		typedef typename Allocator::const_pointer const_pointer;
 		typedef vector_iterator< T >			  iterator;
 		typedef vector_const_iterator<T>		  const_iterator;
-		// typedef std::reverse_iterator< iterator >		reverse_iterator;
-		// typedef std::reverse_iterator< const_iterator >
-		// const_reverse_iterator;
+		typedef reverse_iterator< const_iterator > const_reverse_iterator;
+		typedef reverse_iterator< iterator >	reverse_iterator;
 
 		/* Member functions */
 		explicit vector(Allocator const& alloc = allocator_type()) :
@@ -143,10 +142,10 @@ class vector {
 		const_iterator begin(void) const { return (const_iterator(this->m_start)); }
 		iterator end(void) { return (iterator(this->m_start + this->m_size)); }
 		const_iterator end(void) const { return (const_iterator(this->m_start + this->m_size)); }
-		// reverse_iterator rbegin(void);
-		// const_reverse_iterator rbegin(void) const;
-		// reverse_iterator rend(void);
-		// const_reverse_iterator rend(void) const;
+		reverse_iterator rbegin(void) { return (reverse_iterator(this->m_start + this->m_size)); }
+		const_reverse_iterator rbegin(void) const { return (const_reverse_iterator(this->m_start + this->m_size)); }
+		reverse_iterator rend(void) { return (reverse_iterator(this->m_start)); }
+		const_reverse_iterator rend(void) const { return (const_reverse_iterator(this->m_start)); }
 
 		/* Capacity */
 		bool	  empty(void) const { return (!this->m_size); }
