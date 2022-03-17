@@ -103,7 +103,8 @@ static bool test_assign_range_reused_smaller(void) {
 	return (true);
 }
 static bool test_get_allocator(void) {
-	ltest_assert_eq(std::allocator< char >(), std::vector< char >().get_allocator());
+	ltest_assert_eq(std::allocator< char >(),
+					std::vector< char >().get_allocator());
 }
 
 /* Access */
@@ -190,61 +191,65 @@ static bool test_begin_incremented(void) {
 	ltest_assert_eq(*(ft::vector< char >(10, 'a').begin() + 1), 'a');
 }
 static bool test_const_begin(void) {
-	ft::vector< char> const vec (10, 'a');
-	ft::vector < char >::const_iterator it = vec.begin();
+	ft::vector< char > const		   vec(10, 'a');
+	ft::vector< char >::const_iterator it = vec.begin();
 	ltest_assert_eq(*it, 'a');
 }
 static bool test_rbegin(void) {
-	std::vector<char> stdvec(1, 'a');
+	std::vector< char > stdvec(1, 'a');
 	stdvec.push_back('b');
 	stdvec.push_back('c');
-	std::vector <char>::reverse_iterator stdit = stdvec.rbegin();
-	ft::vector< char> vec (1, 'a');
+	std::vector< char >::reverse_iterator stdit = stdvec.rbegin();
+	ft::vector< char >					  vec(1, 'a');
 	vec.push_back('b');
 	vec.push_back('c');
-	ft::vector < char>::reverse_iterator it = vec.rbegin();
+	ft::vector< char >::reverse_iterator it = vec.rbegin();
 	ltest_assert_eq(*it, *stdit);
 }
 static bool test_rbegin_const(void) {
-	std::vector<char> const stdvec(3, 'a');
-	std::vector <char>::const_reverse_iterator stdit = stdvec.rbegin();
-	ft::vector< char> const vec (3, 'a');
-	ft::vector < char>::const_reverse_iterator it = vec.rbegin();
+	std::vector< char > const					stdvec(3, 'a');
+	std::vector< char >::const_reverse_iterator stdit = stdvec.rbegin();
+	ft::vector< char > const					vec(3, 'a');
+	ft::vector< char >::const_reverse_iterator	it = vec.rbegin();
 	ltest_assert_eq(*it, *stdit);
 }
 static bool test_end_decremented(void) {
 	ltest_assert_eq(*(ft::vector< char >(10, 'a').end() - 1), 'a');
 }
 static bool test_const_end(void) {
-	ft::vector< char> const vec (10, 'a');
-	ft::vector < char>::const_iterator it = vec.end() - 1;
+	ft::vector< char > const		   vec(10, 'a');
+	ft::vector< char >::const_iterator it = vec.end() - 1;
 	ltest_assert_eq(*it, 'a');
 }
 static bool test_rend(void) {
-	ft::vector< char> vec (1, 'a');
+	ft::vector< char > vec(1, 'a');
 	vec.push_back('b');
 	vec.push_back('c');
-	ft::vector < char>::reverse_iterator it = vec.rend() - 1;
-	std::vector< char> stdvec (1, 'a');
+	ft::vector< char >::reverse_iterator it = vec.rend() - 1;
+	std::vector< char >					 stdvec(1, 'a');
 	stdvec.push_back('b');
 	stdvec.push_back('c');
-	std::vector < char>::reverse_iterator stdit = stdvec.rend() - 1;
+	std::vector< char >::reverse_iterator stdit = stdvec.rend() - 1;
 	ltest_assert_eq(*it, *stdit);
 }
 static bool test_rend_const(void) {
-	ft::vector< char> const vec (3, 'a');
-	ft::vector < char>::const_reverse_iterator it = vec.rend() - 1;
-	std::vector< char> const stdvec (3, 'a');
-	std::vector < char>::const_reverse_iterator stdit = stdvec.rend() - 1;
+	ft::vector< char > const					vec(3, 'a');
+	ft::vector< char >::const_reverse_iterator	it = vec.rend() - 1;
+	std::vector< char > const					stdvec(3, 'a');
+	std::vector< char >::const_reverse_iterator stdit = stdvec.rend() - 1;
 	ltest_assert_eq(*it, *stdit);
 }
 
 /* Capacity */
-static bool test_empty_true(void) { ltest_assert_eq(ft::vector< int >().empty(), true); }
+static bool test_empty_true(void) {
+	ltest_assert_eq(ft::vector< int >().empty(), true);
+}
 static bool test_empty_false(void) {
 	ltest_assert_eq(ft::vector< char >(10, 'a').empty(), false);
 }
-static bool test_size_null(void) { ltest_assert_eq(ft::vector< int >().size(), 0); }
+static bool test_size_null(void) {
+	ltest_assert_eq(ft::vector< int >().size(), 0);
+}
 static bool test_size_positive(void) {
 	ltest_assert_eq(ft::vector< char >(10, 'a').size(), 10);
 }
@@ -254,7 +259,8 @@ static bool test_size_pop_back(void) {
 	ltest_assert_eq(vec.size(), 9);
 }
 static bool test_max_size(void) {
-	ltest_assert_eq(ft::vector< int >().max_size(), std::vector< int >().max_size());
+	ltest_assert_eq(ft::vector< int >().max_size(),
+					std::vector< int >().max_size());
 }
 static bool test_reserve(void) {
 	ft::vector< char > vec(10, 'a');
@@ -264,7 +270,9 @@ static bool test_reserve(void) {
 		return (false);
 	return (true);
 }
-static bool test_capacity_null(void) { ltest_assert_eq(ft::vector< char >().capacity(), 0); }
+static bool test_capacity_null(void) {
+	ltest_assert_eq(ft::vector< char >().capacity(), 0);
+}
 static bool test_capacity_positive(void) {
 	ltest_assert_eq(ft::vector< char >(10, 'a').capacity(), 10);
 }
@@ -286,8 +294,8 @@ static bool test_insert_simple(void) {
 	vec.push_back('d');
 	vec.push_back('e');
 	ft::vector< char >::iterator it = vec.insert(vec.begin() + 2, 'c');
-	if (vec.size() != 5 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c' || vec[3] != 'd' || vec[4] != 'e'
-		|| *it != 'c')
+	if (vec.size() != 5 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c'
+		|| vec[3] != 'd' || vec[4] != 'e' || *it != 'c')
 		return (false);
 	return (true);
 }
@@ -297,7 +305,8 @@ static bool test_insert_fill(void) {
 	vec.push_back('d');
 	vec.push_back('e');
 	vec.insert(vec.begin() + 2, 3, 'c');
-	if (vec.size() != 7 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c' || vec[3] != 'c' || vec[4] != 'c' || vec[5] != 'd' || vec[6] != 'e')
+	if (vec.size() != 7 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c'
+		|| vec[3] != 'c' || vec[4] != 'c' || vec[5] != 'd' || vec[6] != 'e')
 		return (false);
 	return (true);
 }
@@ -308,15 +317,17 @@ static bool test_insert_range(void) {
 	ft::vector< char > vec(1, 'a');
 	vec.push_back('e');
 	vec.insert(vec.begin() + 1, stdvec.begin(), stdvec.end());
-	if (vec.size() != 5 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c' || vec[3] != 'd' || vec[4] != 'e')
+	if (vec.size() != 5 || vec[0] != 'a' || vec[1] != 'b' || vec[2] != 'c'
+		|| vec[3] != 'd' || vec[4] != 'e')
 		return (false);
 	return (true);
 }
 static bool test_insert_range_size_one(void) {
-	std::vector<char> stdvec(5, 'a');
-	ft::vector<char> ftvec(1, 'b');
+	std::vector< char > stdvec(5, 'a');
+	ft::vector< char >	ftvec(1, 'b');
 	ftvec.insert(ftvec.begin(), stdvec.begin(), stdvec.end());
-	if (ftvec.size() != 6 || ftvec[0] != 'a' || ftvec[4] != 'a' || ftvec[5] != 'b')
+	if (ftvec.size() != 6 || ftvec[0] != 'a' || ftvec[4] != 'a'
+		|| ftvec[5] != 'b')
 		return (false);
 	return (true);
 }
@@ -408,13 +419,13 @@ static bool test_operator_equal_true(void) {
 static bool test_operator_equal_false(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(9, 'a');
-	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
+	vec2.insert(vec2.begin() + vec2.size() / 2, 'b');
 	ltest_assert_eq(vec == vec2, false);
 }
 static bool test_operator_different_true(void) {
 	ft::vector< char > vec(10, 'a');
 	ft::vector< char > vec2(9, 'a');
-	vec2.insert(vec2.begin() + vec2.size()/2, 'b');
+	vec2.insert(vec2.begin() + vec2.size() / 2, 'b');
 	ltest_assert_eq(vec != vec2, true);
 }
 static bool test_operator_different_false(void) {
@@ -472,12 +483,15 @@ bool test_vector(void) {
 	t.registerTest("Range constructor", &test_range_constructor);
 	t.registerTest("Copy constructor", &test_copy_constructor);
 	t.registerTest("Assignment operator", &test_assignment_operator);
-	t.registerTest("Assignment operator reused", &test_assignment_operator_reused);
+	t.registerTest("Assignment operator reused",
+				   &test_assignment_operator_reused);
 	t.registerTest("Assignment operator real", &test_assignment_operator_real);
 	t.registerTest("Assign fill", &test_assign_fill);
 	t.registerTest("Assign range", &test_assign_range);
-	t.registerTest("Assign range reuse bigger", &test_assign_range_reused_bigger);
-	t.registerTest("Assign range reuse smaller", &test_assign_range_reused_smaller);
+	t.registerTest("Assign range reuse bigger",
+				   &test_assign_range_reused_bigger);
+	t.registerTest("Assign range reuse smaller",
+				   &test_assign_range_reused_smaller);
 	t.registerTest("Get allocator", &test_get_allocator);
 
 	/* Access */
@@ -487,8 +501,10 @@ bool test_vector(void) {
 	t.registerTest("Const at 1", &test_const_at_push_back);
 	t.registerTest("Access operator at 0", &test_access_operator_zero);
 	t.registerTest("Access operator at 1", &test_access_operator_one);
-	t.registerTest("Const access operator at 0", &test_const_access_operator_zero);
-	t.registerTest("Const access operator at 1", &test_const_access_operator_one);
+	t.registerTest("Const access operator at 0",
+				   &test_const_access_operator_zero);
+	t.registerTest("Const access operator at 1",
+				   &test_const_access_operator_one);
 	t.registerTest("Front", &test_front);
 	t.registerTest("Const front", &test_const_front);
 	t.registerTest("Back", &test_back);
