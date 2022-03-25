@@ -1,10 +1,13 @@
 #pragma once
 
 #include "algorithm.hpp"
+#include "iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "type_traits.hpp"
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
 #include <cstddef>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -44,28 +47,29 @@ class vector {
 				this->m_allocator.construct(this->m_start + i, value);
 		}
 		template< class InputIt >
-		vector(InputIt			first,
-			   InputIt			last,
-			   Allocator const& alloc = Allocator()) :
+		vector(InputIt								   first,
+			   typename ft::enable_if< !ft::is_integral< InputIt >::value,
+									   InputIt >::type last,
+			   Allocator const&						   alloc = Allocator()) :
 			m_allocator(alloc),
-			m_capacity(std::distance(first, last)),
+			m_capacity(ft::distance(first, last)),
 			m_size(this->m_capacity),
 			m_start(this->m_allocator.allocate(this->m_capacity)) {
-			for (size_type i = 0; i < this->m_capacity; ++i) {
+			for (size_type i = 0; i < this->m_size; ++i) {
 				this->m_allocator.construct(this->m_start + i, *first);
 				++first;
 			}
 		}
 		vector(vector const& rhs) :
 			m_allocator(rhs.m_allocator),
-			m_capacity(rhs.m_size),
+			m_capacity(rhs.m_capacity),
 			m_size(rhs.m_size),
 			m_start(this->m_allocator.allocate(this->m_capacity)) {
 			for (size_type i = 0; i < this->m_size; ++i)
-				this->m_allocator.construct(this->m_start + i, rhs.m_start[i]);
+				this->m_allocator.construct(this->m_start + i, rhs[i]);
 		}
 		~vector(void) {
-			for (size_type i = 0; i <= this->m_size; ++i)
+			for (size_type i = 0; i < this->m_size; ++i)
 				this->m_allocator.destroy(this->m_start + i);
 			this->m_allocator.deallocate(this->m_start, this->m_capacity);
 		}
@@ -81,11 +85,11 @@ class vector {
 				this->m_start	 = this->m_allocator.allocate(this->m_capacity);
 			}
 			for (size_type i = 0; i < rhs.m_size; ++i)
-				this->m_allocator.construct(this->m_start + i, rhs.m_start[i]);
+				this->m_allocator.construct(this->m_start + i, rhs[i]);
 			this->m_size = rhs.m_size;
 			return (*this);
 		}
-		void assign(size_type count, const T& value) {
+		void assign(size_type count, const_reference value) {
 			for (size_type i = 0; i < this->m_size; ++i)
 				this->m_allocator.destroy(this->m_start + i);
 			if (this->m_capacity < count) {
@@ -97,9 +101,12 @@ class vector {
 				this->m_allocator.construct(this->m_start + i, value);
 			this->m_size = count;
 		}
+
 		template< class InputIt >
-		void assign(InputIt first, InputIt last) {
-			size_type count = std::distance(first, last);
+		void assign(InputIt									first,
+					typename ft::enable_if< !ft::is_integral< InputIt >::value,
+											InputIt >::type last) {
+			size_type count = ft::distance(first, last);
 			for (size_type i = 0; i < this->m_size; ++i)
 				this->m_allocator.destroy(this->m_start + i);
 			if (this->m_capacity < count) {
@@ -107,8 +114,8 @@ class vector {
 				this->m_capacity = count;
 				this->m_start	 = this->m_allocator.allocate(this->m_capacity);
 			}
-			for (size_type i = 0; i < count; ++i)
-				this->m_allocator.construct(this->m_start + i, first[i]);
+			for (size_type i = 0; i < count; ++i, ++first)
+				this->m_allocator.construct(this->m_start + i, *first);
 			this->m_size = count;
 		}
 		allocator_type get_allocator(void) const { return (this->m_allocator); }
@@ -168,13 +175,13 @@ class vector {
 		void reserve(size_type new_cap) {
 			if (new_cap <= this->m_capacity)
 				return;
-			pointer tmp	  = this->m_start;
-			this->m_start = this->m_allocator.allocate(new_cap);
+			pointer tmp = this->m_allocator.allocate(new_cap);
 			for (size_type i = 0; i < this->m_size; ++i)
-				this->m_allocator.construct(this->m_start + i, tmp[i]);
+				this->m_allocator.construct(tmp + i, this->m_start[i]);
 			for (size_type i = 0; i < this->m_size; ++i)
-				this->m_allocator.destroy(tmp + i);
-			this->m_allocator.deallocate(tmp, this->m_capacity);
+				this->m_allocator.destroy(this->m_start + i);
+			this->m_allocator.deallocate(this->m_start, this->m_capacity);
+			this->m_start	 = tmp;
 			this->m_capacity = new_cap;
 		}
 		size_type capacity(void) const { return (this->m_capacity); }
@@ -186,73 +193,74 @@ class vector {
 			this->m_size = 0;
 		}
 		iterator insert(iterator pos, const_reference value) {
-			difference_type pos_index = &(*pos) - this->m_start;
+			difference_type offset = ft::distance(this->begin(), pos);
 			if (this->m_capacity == 0)
-				this->reserve(10);
+				this->reserve(16);
 			if (this->m_capacity <= this->m_size)
 				this->reserve(this->m_capacity * 2);
-			this->m_allocator.construct(this->m_start + this->m_size,
-										this->back());
+			for (iterator it = this->end(); it != this->begin() + offset;
+				 --it) {
+				this->m_allocator.construct(&(*it), *(it - 1));
+				this->m_allocator.destroy(&(*(it - 1)));
+			}
+			this->m_allocator.construct(&(*(this->begin() + offset)), value);
 			++this->m_size;
-			for (difference_type i = this->m_size - 2; i > pos_index; --i)
-				this->m_start[i] = this->m_start[i - 1];
-			this->m_start[pos_index] = value;
-			return (iterator(this->m_start + pos_index));
+			return (this->begin() + offset);
 		}
 		void insert(iterator pos, size_type count, const_reference value) {
-			difference_type pos_index = &(*pos) - this->m_start;
+			if (count == 0)
+				return;
+			difference_type offset = ft::distance(this->begin(), pos);
 			if (this->m_capacity == 0)
 				this->reserve(count);
 			while (this->m_capacity <= this->m_size + count)
 				this->reserve(this->m_capacity * 2);
-			for (size_type i = 0; i < count; ++i) {
-				this->m_allocator.construct(this->m_start + this->m_size,
-											this->back());
-				++this->m_size;
-			}
-			for (difference_type i = this->m_size - 2; i - count + 1 > 0; --i)
-				this->m_start[i] = this->m_start[i - count];
 			for (size_type i = 0; i < count; ++i)
-				this->m_start[pos_index + i] = value;
+				this->insert(this->begin() + offset, value);
 		}
 		template< class InputIt >
-		void insert(iterator pos, InputIt first, InputIt last) {
-			difference_type pos_index = &(*pos) - this->m_start;
-			difference_type count	  = &(*last) - &(*first);
+		void insert(iterator								pos,
+					InputIt									first,
+					typename ft::enable_if< !ft::is_integral< InputIt >::value,
+											InputIt >::type last) {
+			difference_type offset = ft::distance(this->begin(), pos);
+			difference_type count  = ft::distance(first, last);
 			if (this->m_capacity == 0)
 				this->reserve(count);
 			while (this->m_capacity <= this->m_size + count)
 				this->reserve(this->m_capacity * 2);
-			for (difference_type i = 0; i < count; ++i) {
-				this->m_allocator.construct(this->m_start + this->m_size,
-											this->back());
-				++this->m_size;
-			}
-			for (difference_type i = this->m_size - 2; i - count + 1 > 0; --i)
-				this->m_start[i] = this->m_start[i - count + 1];
-			for (difference_type i = 0; i < count; ++i)
-				this->m_start[pos_index + i] = first[i];
+			for (difference_type i = 0; first != last; ++i, first++)
+				this->insert(this->begin() + offset + i, *first);
 		}
 		iterator erase(iterator pos) {
-			this->m_allocator.destroy(&(*pos));
 			--this->m_size;
-			for (iterator it = pos; it != end(); ++it)
-				it[0] = it[1];
+			for (iterator it = pos; it != this->end(); ++it) {
+				//*it = *(it + 1);
+				this->m_allocator.destroy(&(*it));
+				this->m_allocator.construct(&(*it), *(it + 1));
+			}
+			this->m_allocator.destroy(this->m_start + this->m_size);
 			return (pos);
 		}
+
 		iterator erase(iterator first, iterator last) {
-			size_type count = &(*last) - &(*first);
-			size_type begin = &(*first) - this->m_start;
-			for (size_type i = begin; i <= count; ++i)
-				this->m_allocator.destroy(this->m_start + i);
-			this->m_size -= count;
-			for (size_type i = begin; i <= this->m_size; ++i)
-				this->m_start[i] = this->m_start[i + count];
-			return (first);
+			if (first == last)
+				return (first);
+			if (last != this->end()) {
+				for (; first != last; --last)
+					this->erase(first);
+				return (first);
+			}
+			iterator ret = first;
+			for (; first != last; ++first) {
+				this->m_allocator.destroy(&(*first));
+				--this->m_size;
+			}
+			return (ret);
 		}
-		void push_back(const T& value) {
+		void push_back(T const& value) {
 			if (this->m_capacity == 0)
-				this->reserve(10);
+				this->reserve(16);
 			else if (this->m_size == this->m_capacity)
 				this->reserve(this->m_capacity * 2);
 			this->m_allocator.construct(this->m_start + this->m_size, value);
@@ -267,10 +275,10 @@ class vector {
 		void resize(size_type count, T value = T()) {
 			if (this->m_size > count) {
 				for (; this->m_size > count; --this->m_size)
-					this->m_allocator.destroy(this->m_start + this->m_size);
+					this->m_allocator.destroy(this->m_start + this->m_size - 1);
 			} else if (this->m_size < count) {
 				if (this->m_capacity == 0)
-					this->reserve(10);
+					this->reserve(16);
 				while (this->m_capacity < count)
 					this->reserve(this->m_capacity * 2);
 				for (size_type i = this->m_size; i < count; ++i)

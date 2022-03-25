@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iterator_trait.hpp"
+#include "iterator.hpp"
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
 
@@ -23,15 +23,11 @@ class reverse_iterator {
 		reverse_iterator(void) : current(NULL) {}
 		explicit reverse_iterator(iterator_type x) : current(x) {}
 		template< class U >
-		reverse_iterator(reverse_iterator< U > const& other) {
-			*this = other;
-		}
+		reverse_iterator(reverse_iterator< U > const& other) : current(other.base()) { }
 		~reverse_iterator(void) {}
 		template< class U >
 		reverse_iterator& operator=(reverse_iterator< U > const& other) {
-			if (this == &other)
-				return (*this);
-			this->current = other.current;
+			this->current = other.base();
 			return (*this);
 		}
 		iterator_type base(void) const { return (this->current); }
@@ -119,12 +115,18 @@ template< class Iter >
 reverse_iterator< Iter >
 	operator+(typename reverse_iterator< Iter >::difference_type n,
 			  reverse_iterator< Iter > const&					 it) {
-	return (it.base() - n);
+	return (ft::reverse_iterator<Iter>(it.base() - n));
 }
 template< class Iterator >
 typename reverse_iterator< Iterator >::difference_type
 	operator-(reverse_iterator< Iterator > const& lhs,
 			  reverse_iterator< Iterator > const& rhs) {
+	return (rhs.base() - lhs.base());
+}
+template< class Iterator1, class Iterator2 >
+typename reverse_iterator< Iterator1 >::difference_type
+	operator-(reverse_iterator< Iterator1 > const& lhs,
+			  reverse_iterator< Iterator2 > const& rhs) {
 	return (rhs.base() - lhs.base());
 }
 

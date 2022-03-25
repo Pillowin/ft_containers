@@ -1,6 +1,7 @@
 #pragma once
 
-#include "iterator_trait.hpp"
+#include "iterator.hpp"
+#include "vector_iterator.hpp"
 
 namespace ft {
 
@@ -19,6 +20,7 @@ class vector_const_iterator {
 		vector_const_iterator(void) : ptr(0) {}
 		vector_const_iterator(pointer ptr) : ptr(ptr) {}
 		vector_const_iterator(vector_const_iterator const& rhs) { *this = rhs; }
+		vector_const_iterator(vector_iterator<T> const& rhs) : ptr(&(*rhs)) {}
 		~vector_const_iterator(void) {}
 
 		/* Assignment operator */
@@ -30,9 +32,9 @@ class vector_const_iterator {
 		}
 
 		/* Access operators */
-		reference operator*(void) { return (*this->ptr); }
-		pointer	  operator->(void) { return (this->ptr); }
-		reference operator[](difference_type off) { return (ptr[off]); }
+		reference operator*(void) const { return (*this->ptr); }
+		pointer	  operator->(void) const { return (this->ptr); }
+		reference operator[](difference_type off) const { return (ptr[off]); }
 
 		/* Increment/Decrement operators */
 		vector_const_iterator& operator++(void) {
@@ -69,25 +71,30 @@ class vector_const_iterator {
 			this->ptr -= rhs;
 			return (*this);
 		}
-		// TODO: friends ?
+		friend vector_const_iterator operator+(difference_type n, const vector_const_iterator&rhs) {
+			return (vector_const_iterator(rhs.ptr + n));
+		}
+		friend difference_type operator-(const vector_const_iterator &lhs, const vector_const_iterator &rhs) {
+			return (lhs.ptr - rhs.ptr);
+		}
 
 		/* Comparaison operators */
-		bool operator==(ft::vector_const_iterator< T > const& rhs) {
+		bool operator==(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr == rhs.ptr);
 		}
-		bool operator!=(ft::vector_const_iterator< T > const& rhs) {
+		bool operator!=(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr != rhs.ptr);
 		}
-		bool operator<(ft::vector_const_iterator< T > const& rhs) {
+		bool operator<(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr < rhs.ptr);
 		}
-		bool operator>(ft::vector_const_iterator< T > const& rhs) {
+		bool operator>(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr > rhs.ptr);
 		}
-		bool operator<=(ft::vector_const_iterator< T > const& rhs) {
+		bool operator<=(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr <= rhs.ptr);
 		}
-		bool operator>=(ft::vector_const_iterator< T > const& rhs) {
+		bool operator>=(ft::vector_const_iterator< T > const& rhs) const {
 			return (this->ptr >= rhs.ptr);
 		}
 

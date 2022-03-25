@@ -14,12 +14,12 @@ CXX			:=	c++
 CXXFLAGS	+=	-Ilibtest/header/
 CXXFLAGS	+=	-I$I
 CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD
-CXXFLAGS	+=	-g3 -fsanitize=address
+CXXFLAGS	+=	-g3 #-fsanitize=address
 
 LDFLAGS		+=	-Ilibtest/header/
 LDFLAGS		+=	-I$I
 LDFLAGS		+=	-Llibtest/
-LDFLAGS		+=	-g3 -fsanitize=address
+LDFLAGS		+=	-g3 #-fsanitize=address
 
 RM			:=	/bin/rm -f
 RMDIR		:=	/bin/rm -Rf
@@ -29,7 +29,7 @@ $O%.o: $S%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 all:
-	@$(MAKE) -j $(NAME)
+	@$(MAKE) $(NAME)
 
 $(NAME): libtest $(OBJ)
 	$(CXX) $(LDFLAGS) $(OBJ) -o $@ -ltest

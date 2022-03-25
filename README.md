@@ -4,13 +4,13 @@ C++ containers, easy mode
 ## Todo
 
 - [x] Vector
-	- [ ] Member types
+	- [x] Member types
 	- [x] Member functions
 	- [x] Element access
-	- [ ] Iterators
+	- [x] Iterators
 	- [x] Capacity
 	- [x] Modifiers
-	- [ ] Non member function overload
+	- [x] Non member function overload
 - [ ] Map
 - [ ] Stack
 - [ ] Set (bonus)

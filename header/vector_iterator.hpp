@@ -1,8 +1,11 @@
 #pragma once
 
-#include "iterator_trait.hpp"
+#include "iterator.hpp"
+#include "vector_const_iterator.hpp"
 
 namespace ft {
+
+template< class T > class vector_const_iterator;
 
 /* Basic iterator */
 template< class T >
@@ -30,9 +33,9 @@ class vector_iterator {
 		}
 
 		/* Access operators */
-		reference operator*(void) { return (*this->ptr); }
-		pointer	  operator->(void) { return (this->ptr); }
-		reference operator[](difference_type off) { return (ptr[off]); }
+		reference operator*(void) const { return (*this->ptr); }
+		pointer	  operator->(void) const { return (this->ptr); }
+		reference operator[](difference_type off) const { return (ptr[off]); }
 
 		/* Increment/Decrement operators */
 		vector_iterator& operator++(void) {
@@ -69,26 +72,31 @@ class vector_iterator {
 			this->ptr -= rhs;
 			return (*this);
 		}
-		// TODO: friends ?
+		friend vector_iterator operator+(difference_type n, const vector_iterator &rhs) {
+			return (vector_iterator(rhs.ptr + n));
+		}
+		friend difference_type operator-(const vector_iterator &lhs, const vector_iterator &rhs) {
+			return (lhs.ptr - rhs.ptr);
+		}
 
 		/* Comparaison operators */
-		bool operator==(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr == rhs.ptr);
+		bool operator==(ft::vector_const_iterator< T > const& rhs) const {
+			return (this->ptr == &(*rhs));
 		}
-		bool operator!=(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr != rhs.ptr);
+		bool operator!=(ft::vector_const_iterator< T > const& rhs) const {
+			return (this->ptr != &(*rhs));
 		}
-		bool operator<(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr < rhs.ptr);
+		bool operator<(ft::vector_const_iterator< T > const& rhs) const {
+			return (this->ptr < &(*rhs));
 		}
-		bool operator>(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr > rhs.ptr);
+		bool operator>(ft::vector_const_iterator< T > const& rhs) const {
+			return (this->ptr > &(*rhs));
 		}
-		bool operator<=(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr <= rhs.ptr);
+		bool operator<=(ft::vector_const_iterator< T > const& rhs) const {
+			return (this->ptr <= &(*rhs));
 		}
-		bool operator>=(ft::vector_iterator< T > const& rhs) {
-			return (this->ptr >= rhs.ptr);
+		bool operator>=(ft::vector_const_iterator<T> const& rhs) const {
+			return (this->ptr >= &(*rhs));
 		}
 
 	private:
