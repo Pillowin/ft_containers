@@ -300,7 +300,7 @@ class vector {
 		pointer		   m_start;
 };
 
-/* Non member function overload */
+/* Non member function */
 template< class T, class Alloc >
 void swap(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs) {
 	lhs.swap(rhs);

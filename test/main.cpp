@@ -4,6 +4,7 @@
 bool test_vector(void);
 bool test_vector_iterator(void);
 bool test_vector_const_iterator(void);
+bool test_stack(void);
 bool test_reverse_iterator(void);
 
 int main(void) {
@@ -16,6 +17,8 @@ int main(void) {
 	if (!test_vector_const_iterator())
 		passed &= false;
 	if (!test_reverse_iterator())
+		passed &= false;
+	if (!test_stack())
 		passed &= false;
 	return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
 }

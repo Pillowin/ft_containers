@@ -549,7 +549,7 @@ bool test_vector(void) {
 	t.registerTest("Resize increase", &test_resize_increase);
 	t.registerTest("Member swap", &test_member_swap);
 
-	/* Modifiers */
+	/* Non member function */
 	t.registerTest("Std swap overload", &test_std_swap_overload);
 	t.registerTest("Operator == true", &test_operator_equal_true);
 	t.registerTest("Operator == false", &test_operator_equal_false);
