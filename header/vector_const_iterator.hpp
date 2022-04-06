@@ -11,20 +11,20 @@ class vector_const_iterator {
 	public:
 		/* Member types */
 		typedef ft::random_access_iterator_tag iterator_category;
-		typedef T							   value_type;
+		typedef T const						   value_type;
 		typedef std::ptrdiff_t				   difference_type;
-		typedef T const*					   pointer;
-		typedef T const&					   reference;
+		typedef value_type*					   pointer;
+		typedef value_type&					   reference;
 
 		/* Constructors/Destructor */
 		vector_const_iterator(void) : ptr(0) {}
 		vector_const_iterator(pointer ptr) : ptr(ptr) {}
 		vector_const_iterator(vector_const_iterator const& rhs) { *this = rhs; }
-		vector_const_iterator(vector_iterator<T> const& rhs) : ptr(&(*rhs)) {}
+		vector_const_iterator(vector_iterator< T > const& rhs) : ptr(&(*rhs)) {}
 		~vector_const_iterator(void) {}
 
 		/* Assignment operator */
-		vector_const_iterator& operator=(reference rhs) {
+		vector_const_iterator& operator=(vector_const_iterator const& rhs) {
 			if (this == &rhs)
 				return (*this);
 			this->ptr = rhs.ptr;
@@ -71,10 +71,12 @@ class vector_const_iterator {
 			this->ptr -= rhs;
 			return (*this);
 		}
-		friend vector_const_iterator operator+(difference_type n, const vector_const_iterator&rhs) {
+		friend vector_const_iterator
+			operator+(difference_type n, vector_const_iterator const& rhs) {
 			return (vector_const_iterator(rhs.ptr + n));
 		}
-		friend difference_type operator-(const vector_const_iterator &lhs, const vector_const_iterator &rhs) {
+		friend difference_type operator-(vector_const_iterator const& lhs,
+										 vector_const_iterator const& rhs) {
 			return (lhs.ptr - rhs.ptr);
 		}
 

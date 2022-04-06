@@ -35,7 +35,7 @@ class iterator_traits< T* > {
 
 /* Iterator traits specialized for pointers to const */
 template< class T >
-class iterator_traits< const T* > {
+class iterator_traits< T const* > {
 	public:
 		typedef std::ptrdiff_t			   difference_type;
 		typedef T						   value_type;
@@ -44,12 +44,10 @@ class iterator_traits< const T* > {
 		typedef random_access_iterator_tag iterator_category;
 };
 
-
-template <class InputIter>
-typename ft::iterator_traits<InputIter>::difference_type
-distance(InputIter first, InputIter last)
-{
-	typename ft::iterator_traits<InputIter>::difference_type r(0);
+template< class InputIter >
+typename ft::iterator_traits< InputIter >::difference_type
+	distance(InputIter first, InputIter last) {
+	typename ft::iterator_traits< InputIter >::difference_type r(0);
 	for (; first != last; ++first)
 		++r;
 	return r;

@@ -4,15 +4,38 @@ C++ containers, easy mode
 ## Todo
 
 - [x] Vector
+	- [x] Iterators
+	- [x] Const iterators
+	- [x] Reverse iterators
 	- [x] Member types
 	- [x] Member functions
 	- [x] Element access
-	- [x] Iterators
 	- [x] Capacity
 	- [x] Modifiers
 	- [x] Non member function overload
-- [ ] Map
-- [ ] Stack
+- [x] Stack
+	- [x] Member types
+	- [x] Member functions
+	- [x] Element access
+	- [x] Capacity
+	- [x] Modifiers
+	- [x] Non member function overload
+- [x] Pair
+	- [x] Member functions
+	- [x] Non member function overload
+- [x] Map
+	- [x] Iterators
+	- [x] Const iterators
+	- [x] Reverse iterators
+	- [x] Member types
+	- [x] Member classes
+	- [x] Member functions
+	- [x] Element access
+	- [x] Capacity
+	- [x] Modifiers
+	- [x] Lookup
+	- [x] Observers
+	- [x] Non member function overload
 - [ ] Set (bonus)
 
 ## Doc

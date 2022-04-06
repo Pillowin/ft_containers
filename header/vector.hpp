@@ -101,7 +101,6 @@ class vector {
 				this->m_allocator.construct(this->m_start + i, value);
 			this->m_size = count;
 		}
-
 		template< class InputIt >
 		void assign(InputIt									first,
 					typename ft::enable_if< !ft::is_integral< InputIt >::value,
@@ -242,7 +241,6 @@ class vector {
 			this->m_allocator.destroy(this->m_start + this->m_size);
 			return (pos);
 		}
-
 		iterator erase(iterator first, iterator last) {
 			if (first == last)
 				return (first);
