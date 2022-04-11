@@ -1,29 +1,33 @@
-#include "Test.hpp"
 #include "stack.hpp"
+#include "Test.hpp"
 #include "vector.hpp"
 #include <stack>
 
+#ifndef NS
+#define NS ft
+#endif
+
 /* Member functions */
 static bool test_default_constructor(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	return (true);
 }
 static bool test_default_constructor_explicit_container(void) {
-	ft::vector<int> vec;
-	ft::stack<int> test(vec);
+	NS::vector< int >					vec;
+	NS::stack< int, NS::vector< int > > test(vec);
 	return (true);
 }
 static bool test_copy_constructor(void) {
-	ft::stack<int> test;
-	ft::stack<int> test2(test);
+	NS::stack< int > test;
+	NS::stack< int > test2(test);
 	return (true);
 }
 static bool test_assignment_operator(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	test.push(1);
 	test.push(2);
 	test.push(3);
-	ft::stack<int> test2 = test;
+	NS::stack< int > test2 = test;
 	if (test2.top() != 3)
 		return (false);
 	test2.pop();
@@ -37,7 +41,7 @@ static bool test_assignment_operator(void) {
 
 /* Element access */
 static bool test_top(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	test.push(1);
 	test.push(2);
 	test.push(3);
@@ -52,9 +56,9 @@ static bool test_top(void) {
 	return (true);
 }
 static bool test_const_top(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	test.push(1);
-	ft::stack<int>::const_reference nbr = test.top();
+	NS::stack< int >::const_reference nbr = test.top();
 	if (nbr != 1)
 		return (false);
 	return (true);
@@ -62,7 +66,7 @@ static bool test_const_top(void) {
 
 /* Capacity */
 static bool test_empty(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	if (!test.empty())
 		return (false);
 	test.push(1);
@@ -71,7 +75,7 @@ static bool test_empty(void) {
 	return (true);
 }
 static bool test_size(void) {
-	ft::stack<int> test;
+	NS::stack< int > test;
 	if (test.size() != 0)
 		return (false);
 	test.push(1);
@@ -85,7 +89,7 @@ static bool test_size(void) {
 
 /* Modifiers */
 static bool test_push(void) {
-	ft::stack<std::string>test;
+	NS::stack< std::string > test;
 	test.push("1");
 	test.push("2");
 	if (test.size() != 2 || test.top() != "2")
@@ -93,7 +97,7 @@ static bool test_push(void) {
 	return (true);
 }
 static bool test_pop(void) {
-	ft::stack<std::string>test;
+	NS::stack< std::string > test;
 	test.push("1");
 	test.push("2");
 	test.pop();
@@ -104,88 +108,88 @@ static bool test_pop(void) {
 
 /* Non-member functions */
 static bool test_operator_equal_true(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::stack< char > s(vec);
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s == s2, true);
 }
 static bool test_operator_equal_false(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::stack< char > s(vec);
-	ft::vector< char > vec2(9, 'a');
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::vector< char >					  vec2(9, 'a');
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s == s2, false);
 }
 static bool test_operator_different_true(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(9, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(9, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	vec2.insert(vec2.begin() + vec2.size() / 2, 'b');
 	ltest_assert_eq(s != s2, true);
 }
 static bool test_operator_different_false(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s != s2, false);
 }
 static bool test_operator_less_true(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(15, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(15, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s < s2, true);
 }
 static bool test_operator_less_false(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s < s2, false);
 }
 static bool test_operator_less_equal_true(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s <= s2, true);
 }
 static bool test_operator_less_equal_false(void) {
-	ft::vector< char > vec(15, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(15, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s <= s2, false);
 }
 static bool test_operator_great_true(void) {
-	ft::vector< char > vec(15, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(15, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s > s2, true);
 }
 static bool test_operator_great_false(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s > s2, false);
 }
 static bool test_operator_great_equal_true(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(10, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(10, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s >= s2, true);
 }
 static bool test_operator_great_equal_false(void) {
-	ft::vector< char > vec(10, 'a');
-	ft::vector< char > vec2(15, 'a');
-	ft::stack< char > s(vec);
-	ft::stack< char > s2(vec2);
+	NS::vector< char >					  vec(10, 'a');
+	NS::vector< char >					  vec2(15, 'a');
+	NS::stack< char, NS::vector< char > > s(vec);
+	NS::stack< char, NS::vector< char > > s2(vec2);
 	ltest_assert_eq(s >= s2, false);
 }
 
@@ -194,7 +198,8 @@ bool test_stack(void) {
 
 	/* Member functions */
 	t.registerTest("Default constructor", &test_default_constructor);
-	t.registerTest("Default constructor explicit container", &test_default_constructor_explicit_container);
+	t.registerTest("Default constructor explicit container",
+				   &test_default_constructor_explicit_container);
 	t.registerTest("Copy constructor", &test_copy_constructor);
 	t.registerTest("Assignment operator", &test_assignment_operator);
 

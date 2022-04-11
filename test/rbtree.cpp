@@ -3,20 +3,21 @@
 #include <iostream>
 #include <string>
 
+/*
 static bool test_default_constructor(void) {
-	ft::RBTree< ft::pair< std::string, int >, std::less< std::string > > t;
+	NS::RBTree< NS::pair< std::string, int >, std::less< std::string > > t;
 	return (true);
 }
 static bool test_insert(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	return (true);
 }
 static bool test_insert_multiple_unordered(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("3"), 3));
 	t.insert(tree_type(std::string("2"), 2));
@@ -56,8 +57,8 @@ static bool test_insert_multiple_unordered(void) {
 	return (true);
 }
 static bool test_insert_multiple(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.insert(tree_type(std::string("2"), 2));
@@ -97,8 +98,8 @@ static bool test_insert_multiple(void) {
 	return (true);
 }
 static bool test_insert_same(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.insert(tree_type(std::string("2"), 3));
@@ -118,8 +119,8 @@ static bool test_insert_same(void) {
 	return (true);
 }
 static bool test_search(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	tree::node_pointer n = t.search("1");
@@ -131,8 +132,8 @@ static bool test_search(void) {
 	return (true);
 }
 static bool test_search_multiple(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.insert(tree_type(std::string("2"), 2));
@@ -151,8 +152,8 @@ static bool test_search_multiple(void) {
 	return (true);
 }
 static bool test_search_non_existent(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.insert(tree_type(std::string("2"), 2));
@@ -162,8 +163,8 @@ static bool test_search_non_existent(void) {
 	return (true);
 }
 static bool test_erase(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.erase("1");
@@ -173,8 +174,8 @@ static bool test_erase(void) {
 	return (true);
 }
 static bool test_erase_multiple(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.insert(tree_type(std::string("2"), 2));
@@ -194,8 +195,8 @@ static bool test_erase_multiple(void) {
 	return (true);
 }
 static bool test_erase_non_existent(void) {
-	typedef ft::pair< std::string, int >					  tree_type;
-	typedef ft::RBTree< tree_type, std::less< std::string > > tree;
+	typedef NS::pair< std::string, int >					  tree_type;
+	typedef NS::RBTree< tree_type, std::less< std::string > > tree;
 	tree													  t;
 	t.insert(tree_type(std::string("1"), 1));
 	t.erase("1");
@@ -205,10 +206,9 @@ static bool test_erase_non_existent(void) {
 		return (false);
 	return (true);
 }
-/*
 static bool test_balanced_simple(void) {
-	typedef ft::pair<int , int > tree_type;
-	typedef ft::RBTree< tree_type >		 tree;
+	typedef NS::pair<int , int > tree_type;
+	typedef NS::RBTree< tree_type >		 tree;
 	tree t;
 	t.insert(tree_type(3, 3));
 	t.insert(tree_type(4, 4));
@@ -230,14 +230,13 @@ static bool test_balanced_simple(void) {
 	t.insert(tree_type(2, 2));
 	t.insert(tree_type(9, 9));
 
-	ft::node<tree_type>::DG_tree(t.root);
+	NS::node<tree_type>::DG_tree(t.root);
 
 	t.erase(33);
 
-	ft::node<tree_type>::DG_tree(t.root);
+	NS::node<tree_type>::DG_tree(t.root);
 	return (false);
 }
-*/
 
 bool test_rbtree(void) {
 	Test t("Red Black Tree");
@@ -256,3 +255,5 @@ bool test_rbtree(void) {
 	// t.registerTest("Balanced", &test_balanced_simple);
 	return (t.run());
 }
+
+*/

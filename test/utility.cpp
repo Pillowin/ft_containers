@@ -1,27 +1,32 @@
 #include "utility.hpp"
 #include "Test.hpp"
+#include <utility>
+
+#ifndef NS
+#define NS ft
+#endif
 
 /* Member functions */
 static bool test_default_constructor(void) {
-	ft::pair< int, int > p;
+	NS::pair< int, int > p;
 	return (true);
 }
 static bool test_value_constructor(void) {
-	ft::pair< int, int > p(1, 2);
+	NS::pair< int, int > p(1, 2);
 	if (p.first != 1 || p.second != 2)
 		return (false);
 	return (true);
 }
 static bool test_copy_constructor(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2(p);
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2(p);
 	if (p2.first != 1 || p2.second != 2)
 		return (false);
 	return (true);
 }
 static bool test_assignment_operator(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2 = p;
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2 = p;
 	if (p2.first != 1 || p2.second != 2)
 		return (false);
 	return (true);
@@ -29,39 +34,39 @@ static bool test_assignment_operator(void) {
 
 /* Non-member functions */
 static bool test_make_pair(void) {
-	ft::pair< int, int > p = ft::make_pair(1, 2);
+	NS::pair< int, int > p = NS::make_pair(1, 2);
 	if (p.first != 1 || p.second != 2)
 		return (false);
 	return (true);
 }
 static bool test_operator_equal(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2(1, 2);
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2(1, 2);
 	ltest_assert(p == p2);
 }
 static bool test_operator_different(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2(1, 2);
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2(1, 2);
 	ltest_assert_n(p != p2);
 }
 static bool test_operator_less(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2(2, 4);
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2(2, 4);
 	ltest_assert(p < p2);
 }
 static bool test_operator_less_equal(void) {
-	ft::pair< int, int > p(1, 2);
-	ft::pair< int, int > p2(1, 2);
+	NS::pair< int, int > p(1, 2);
+	NS::pair< int, int > p2(1, 2);
 	ltest_assert(p <= p2);
 }
 static bool test_operator_more(void) {
-	ft::pair< int, int > p(4, 2);
-	ft::pair< int, int > p2(1, 2);
+	NS::pair< int, int > p(4, 2);
+	NS::pair< int, int > p2(1, 2);
 	ltest_assert(p > p2);
 }
 static bool test_operator_more_equal(void) {
-	ft::pair< int, int > p(4, 2);
-	ft::pair< int, int > p2(4, 2);
+	NS::pair< int, int > p(4, 2);
+	NS::pair< int, int > p2(4, 2);
 	ltest_assert(p >= p2);
 }
 

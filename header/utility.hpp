@@ -1,5 +1,7 @@
 #pragma once
 
+// #include <sstream>	// TODO: rm
+
 namespace ft {
 
 template< class T1, class T2 >
@@ -28,11 +30,11 @@ class pair {
 			return (*this);
 		}
 		/*
-        std::string to_string(void) {	// TODO: DEBUG
-            std::stringstream ss;
-            ss << first << ": " << second;
-            return (ss.str());
-        }
+		std::string to_string(void) {	// TODO: DEBUG
+			std::stringstream ss;
+			ss << first << ": " << second;
+			return (ss.str());
+		}
 		*/
 };
 

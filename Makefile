@@ -6,6 +6,7 @@ NAME		:=	ft_containers
 SRC			:=	$(wildcard $S*.cpp $S*/*.cpp)
 
 OBJ			:=	$(SRC:$S%.cpp=$O%.o)
+STDOBJ		:=	$(SRC:$S%.cpp=$O%_std.o)
 
 MAKEFLAGS	+= --no-print-directory
 
@@ -14,12 +15,10 @@ CXX			:=	c++
 CXXFLAGS	+=	-Ilibtest/header/
 CXXFLAGS	+=	-I$I
 CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD
-CXXFLAGS	+=	-g3 #-fsanitize=address
 
 LDFLAGS		+=	-Ilibtest/header/
 LDFLAGS		+=	-I$I
 LDFLAGS		+=	-Llibtest/
-LDFLAGS		+=	-g3 #-fsanitize=address
 
 RM			:=	/bin/rm -f
 RMDIR		:=	/bin/rm -Rf
@@ -28,11 +27,16 @@ $O%.o: $S%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+$O%_std.o: $S%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -DNS=std -c $< -o $@
+
 all:
 	@$(MAKE) $(NAME)
 
-$(NAME): libtest $(OBJ)
+$(NAME): libtest $(OBJ) $(STDOBJ)
 	$(CXX) $(LDFLAGS) $(OBJ) -o $@ -ltest
+	$(CXX) $(LDFLAGS) -DNS=std $(STDOBJ) -o $@_std -ltest
 
 test: $(NAME)
 	./$(NAME)
@@ -47,7 +51,7 @@ clean:
 
 fclean: clean
 	@make -C libtest fclean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME)_std
 
 re: fclean
 	@$(MAKE)

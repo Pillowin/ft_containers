@@ -18,7 +18,9 @@ class set_iterator {
 		typedef T							   value_type;
 		typedef std::ptrdiff_t				   difference_type;
 		typedef value_type*					   pointer;
+		typedef value_type const*			   const_pointer;
 		typedef value_type&					   reference;
+		typedef value_type const&				const_reference;
 
 	private:
 		typedef typename RBNode< value_type >::node_pointer node_pointer;
@@ -40,7 +42,7 @@ class set_iterator {
 
 		/* Access operators */
 		reference	 operator*(void) const { return (this->ptr->key); }
-		pointer		 operator->(void) const { return (&this->operator*()); }
+		pointer		 operator->(void) const { return (&(this->ptr->key)); }
 		node_pointer get_ptr(void) const { return (this->ptr); }
 
 		/* Increment/Decrement operators */

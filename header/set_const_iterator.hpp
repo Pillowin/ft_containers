@@ -11,10 +11,10 @@ class set_const_iterator {
 	public:
 		/* Member types */
 		typedef ft::bidirectional_iterator_tag iterator_category;
-		typedef T const						   value_type;
+		typedef T 						   value_type;
 		typedef std::ptrdiff_t				   difference_type;
-		typedef value_type*					   pointer;
-		typedef value_type&					   reference;
+		typedef value_type const*					   pointer;
+		typedef value_type const&					   reference;
 
 	private:
 		typedef typename RBNode< T >::node_pointer node_pointer;

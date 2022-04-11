@@ -35,14 +35,6 @@ class map {
 		typedef ft::reverse_iterator< iterator >	   reverse_iterator;
 		typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 
-	private:
-		typedef typename allocator_type::template rebind< value_type >::other
-			pair_allocator_type;
-		typedef RBTree< value_type, key_compare, pair_allocator_type > rbtree;
-		typedef RBNode< value_type >								   node;
-		typedef typename rbtree::node_pointer node_pointer;
-
-	public:
 		/* Member classes */
 		class value_compare {
 			public:
@@ -71,14 +63,24 @@ class map {
 				Compare comp;
 		};
 
+	private:
+		typedef typename allocator_type::template rebind< value_type >::other
+			pair_allocator_type;
+		typedef RBTree< value_type, value_compare, pair_allocator_type > rbtree;
+		typedef RBNode< value_type >									 node;
+		typedef typename rbtree::node_pointer node_pointer;
+
+	public:
 		/* Member functions */
 		map(void) :
-			comp(key_compare()),
+			kcomp(key_compare()),
+			vcomp(value_compare()),
 			allocator(allocator_type()),
 			tree(rbtree()) {}
 		explicit map(Compare const&	  comp,
 					 Allocator const& alloc = Allocator()) :
-			comp(comp),
+			kcomp(comp),
+			vcomp(value_compare()),
 			allocator(alloc),
 			tree(rbtree()) {}
 		template< class InputIt >
@@ -86,7 +88,8 @@ class map {
 			InputIt			 last,
 			Compare const&	 comp  = Compare(),
 			Allocator const& alloc = Allocator()) :
-			comp(comp),
+			kcomp(comp),
+			vcomp(value_compare()),
 			allocator(alloc),
 			tree(rbtree()) {
 			this->insert(first, last);
@@ -97,7 +100,8 @@ class map {
 			if (this == &other)
 				return (*this);
 			this->allocator = other.allocator;
-			this->comp		= other.comp;
+			this->kcomp		= other.kcomp;
+			this->vcomp		= other.vcomp;
 			if (this->tree.get_size())
 				this->clear();
 			this->tree.insert(other.begin(), other.end());
@@ -107,7 +111,8 @@ class map {
 
 		/* Element access */
 		mapped_type& at(key_type const& key) {
-			node_pointer ptr = this->tree.search(key);
+			value_type	 p	 = ft::make_pair(key, mapped_type());
+			node_pointer ptr = this->tree.search(p);
 			if (ptr == NULL)
 				throw std::out_of_range("map: out of range");
 			return (ptr->key.second);
@@ -119,10 +124,11 @@ class map {
 			return (ptr->key.second);
 		}
 		mapped_type& operator[](key_type const& key) {
-			node_pointer ptr = this->tree.search(key);
+			value_type	 p	 = ft::make_pair(key, mapped_type());
+			node_pointer ptr = this->tree.search(p);
 			if (ptr == NULL) {
 				this->tree.insert(value_type(key, mapped_type()));
-				ptr = this->tree.search(key);
+				ptr = this->tree.search(p);
 			}
 			return (ptr->key.second);
 		}
@@ -163,50 +169,54 @@ class map {
 		ft::pair< iterator, bool > insert(const_reference value) {
 			size_type tmp = this->tree.get_size();
 			return (ft::make_pair< iterator, bool >(
-				this->insert(iterator(this->tree.search(value.first)), value),
+				this->insert(this->begin(), value),
 				tmp != this->tree.get_size()));
 		}
 		iterator insert(iterator hint, const_reference value) {
 			(void)hint;
 			this->tree.insert(value);
-			return (iterator(this->tree.search(value.first)));
+			return (iterator(this->tree.search(value)));
 		}
 		template< class InputIt >
 		void insert(InputIt first, InputIt last) {
 			for (; first != last; ++first)
 				this->tree.insert(*first);
 		}
-		void erase(iterator pos) { this->tree.erase(pos->first); }
+		void erase(iterator pos) { this->tree.erase(pos.get_ptr()->key); }
 		void erase(iterator first, iterator last) {
 			iterator tmp;
 			while (first != last) {
 				tmp = first;
 				++first;
-				this->tree.erase(tmp->first);
+				this->tree.erase(tmp.get_ptr()->key);
 			}
 		}
 		size_type erase(key_type const& key) {
-			size_type ret = this->tree.get_size();
-			this->tree.erase(key);
+			size_type  ret = this->tree.get_size();
+			value_type p   = ft::make_pair(key, mapped_type());
+			this->tree.erase(p);
 			return (ret - this->tree.get_size());
 		}
 		void swap(map& other) { this->tree.swap(other.tree); }
 
 		/* Lookup */
 		size_type count(Key const& key) const {
-			return (this->tree.search(key) != NULL);
+			return (this->find(key) != this->end());
 		}
 		iterator find(Key const& key) {
-			node_pointer ptr = this->tree.search(key);
-			if (ptr == NULL)
+			iterator   it = this->lower_bound(key);
+			value_type p  = ft::make_pair(key, mapped_type());
+			if (it == this->end() || this->vcomp(p, it.get_ptr()->key))
 				return (this->end());
-			return (iterator(ptr));
+			return (it);
 		}
 		const_iterator find(Key const& key) const {
-			node_pointer ptr = this->tree.search(key);
-			if (ptr == NULL)
+			const_iterator					  it = this->lower_bound(key);
+			ft::pair< key_type, mapped_type > p
+				= ft::make_pair(key, mapped_type());
+			if (it == this->end() || this->vcomp(p, it.get_ptr()->key))
 				return (this->end());
-			return (const_iterator(ptr));
+			return (it);
 		}
 		ft::pair< iterator, iterator > equal_range(Key const& key) {
 			return (ft::make_pair(lower_bound(key), upper_bound(key)));
@@ -217,38 +227,45 @@ class map {
 		}
 		iterator lower_bound(Key const& key) {
 			for (iterator it = this->begin(); it != this->end(); ++it)
-				if (it->first == key || !this->comp(it->first, key))
+				if (!this->vcomp(it.get_ptr()->key,
+								 ft::make_pair(key, mapped_type())))
 					return (it);
 			return (this->end());
 		}
 		const_iterator lower_bound(Key const& key) const {
 			for (const_iterator it = this->begin(); it != this->end(); ++it)
-				if (it->first == key || !this->comp(it->first, key))
+				if (!this->vcomp(it.get_ptr()->key,
+								 ft::make_pair(key, mapped_type())))
 					return (it);
 			return (this->end());
 		}
 		iterator upper_bound(Key const& key) {
 			for (iterator it = this->begin(); it != this->end(); ++it)
-				if (it->first != key && !this->comp(it->first, key))
+				if (this->vcomp(ft::make_pair(key, mapped_type()),
+								it.get_ptr()->key))
 					return (it);
 			return (this->end());
 		}
 		const_iterator upper_bound(Key const& key) const {
 			for (const_iterator it = this->begin(); it != this->end(); ++it)
-				if (it->first != key && !this->comp(it->first, key))
+				if (this->vcomp(ft::make_pair(key, mapped_type()),
+								it.get_ptr()->key))
 					return (it);
 			return (this->end());
 		}
 
 		/* Observers */
-		key_compare	  key_comp(void) const { return (this->comp); }
+		key_compare	  key_comp(void) const { return (this->kcomp); }
 		value_compare value_comp(void) const {
-			return (value_compare(this->comp));
+			return (value_compare(this->kcomp));
 		}
 
 	private:
-		key_compare	   comp;
+		key_compare	   kcomp;
+		value_compare  vcomp;
 		allocator_type allocator;
+
+	public: // TODO: remove
 		rbtree tree;
 };
 
