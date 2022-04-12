@@ -234,7 +234,6 @@ class vector {
 		iterator erase(iterator pos) {
 			--this->m_size;
 			for (iterator it = pos; it != this->end(); ++it) {
-				//*it = *(it + 1);
 				this->m_allocator.destroy(&(*it));
 				this->m_allocator.construct(&(*it), *(it + 1));
 			}

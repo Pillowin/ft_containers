@@ -198,8 +198,6 @@ class set {
 	private:
 		key_compare	   kcomp;
 		allocator_type allocator;
-
-	public: // TODO: remove
 		rbtree tree;
 };
 

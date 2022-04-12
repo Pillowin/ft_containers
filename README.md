@@ -36,7 +36,7 @@ C++ containers, easy mode
 	- [x] Lookup
 	- [x] Observers
 	- [x] Non member function overload
-- [ ] Set (bonus)
+- [x] Set (bonus)
 
 ## Doc
 

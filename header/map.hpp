@@ -264,8 +264,6 @@ class map {
 		key_compare	   kcomp;
 		value_compare  vcomp;
 		allocator_type allocator;
-
-	public: // TODO: remove
 		rbtree tree;
 };
 
