@@ -11,6 +11,9 @@ bool test_rbtree(void);
 bool test_map(void);
 bool test_map_iterator(void);
 bool test_map_const_iterator(void);
+bool test_set(void);
+bool test_set_iterator(void);
+bool test_set_const_iterator(void);
 
 int main(void) {
 	bool passed = true;
@@ -27,13 +30,17 @@ int main(void) {
 		passed &= false;
 	if (!test_utility())
 		passed &= false;
-	// if (!test_rbtree())
-	//	passed &= false;
 	if (!test_map())
 		passed &= false;
 	if (!test_map_iterator())
 		passed &= false;
 	if (!test_map_const_iterator())
+		passed &= false;
+	if (!test_set())
+		passed &= false;
+	if (!test_set_iterator())
+		passed &= false;
+	if (!test_set_const_iterator())
 		passed &= false;
 	return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
 }
