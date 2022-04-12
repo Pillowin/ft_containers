@@ -264,7 +264,7 @@ class map {
 		key_compare	   kcomp;
 		value_compare  vcomp;
 		allocator_type allocator;
-		rbtree tree;
+		rbtree		   tree;
 };
 
 /* Non-member functions */

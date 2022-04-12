@@ -20,7 +20,7 @@ class set_iterator {
 		typedef value_type*					   pointer;
 		typedef value_type const*			   const_pointer;
 		typedef value_type&					   reference;
-		typedef value_type const&				const_reference;
+		typedef value_type const&			   const_reference;
 
 	private:
 		typedef typename RBNode< value_type >::node_pointer node_pointer;

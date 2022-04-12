@@ -3,14 +3,14 @@
 
 /* Constructors/Destructor */
 static bool test_default_constructor(void) {
-	ft::set< int >			  m;
+	ft::set< int >			 m;
 	ft::set< int >::iterator it;
 	return (true);
 }
 static bool test_pointer_constructor(void) {
-	ft::set< int >				   m;
-	ft::RBNode< int > node;
-	ft::set< int >::iterator	   it(&node);
+	ft::set< int >			 m;
+	ft::RBNode< int >		 node;
+	ft::set< int >::iterator it(&node);
 	return (true);
 }
 static bool test_copy_constructor(void) {
@@ -20,7 +20,7 @@ static bool test_copy_constructor(void) {
 	m.insert(3);
 	ft::set< int >::iterator it = m.begin();
 	ft::set< int >::iterator it2(it);
-	if (*it2 != *it|| *it2 != *it)
+	if (*it2 != *it || *it2 != *it)
 		return (false);
 	return (true);
 }
@@ -29,9 +29,9 @@ static bool test_assignment_operator(void) {
 	m.insert(1);
 	m.insert(2);
 	m.insert(3);
-	ft::set< int >::iterator it  = m.begin();
+	ft::set< int >::iterator it	 = m.begin();
 	ft::set< int >::iterator it2 = it;
-	if (*it2 != *it|| *it2 != *it)
+	if (*it2 != *it || *it2 != *it)
 		return (false);
 	return (true);
 }
@@ -52,16 +52,16 @@ static bool test_arrow_operator(void) {
 	m.insert(1);
 	m.insert(2);
 	m.insert(3);
-	ft::set< int >::iterator it  = m.begin();
+	ft::set< int >::iterator it	 = m.begin();
 	ft::set< int >::iterator it2 = it;
-	if (*it2 != *it|| *it2 != *it)
+	if (*it2 != *it || *it2 != *it)
 		return (false);
 	return (true);
 }
 static bool test_get_ptr(void) {
-	ft::set< int >				   m;
-	ft::RBNode< int > node;
-	ft::set< int >::iterator	   it(&node);
+	ft::set< int >			 m;
+	ft::RBNode< int >		 node;
+	ft::set< int >::iterator it(&node);
 	if (it.get_ptr() != &node)
 		return (false);
 	return (true);

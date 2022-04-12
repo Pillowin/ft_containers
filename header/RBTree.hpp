@@ -14,7 +14,6 @@ typedef enum {
 	BLACK
 } RBColor;
 
-
 template< class T >
 class RBNode {
 	public:
